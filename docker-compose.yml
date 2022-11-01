@@ -1,0 +1,31 @@
+version: '3'
+services:
+  tmodloader:
+    image: 'jacobsmile/tmodloader1.4'
+    container_name: 'tmodloader'
+    ports:
+      - "7777:7777"
+    expose:
+      - "7777"
+    environment:
+      # Download the Calamity mod and CalamityMusic mod.
+      - TMOD_AUTODOWNLOAD=2824688072,2824688266
+      # Enable the Calamity mod and CalamityMusic mod.
+      - TMOD_LOADMODS=2824688072,2824688266
+      # Shutdown Message and Autosave Interval (In Minutes)
+      - TMOD_SHUTDOWN_MESSAGE="Goodbye!"
+      - TMOD_AUTOSAVE_INTERVAL="15"
+      # Server Settings
+      - TMOD_MOTD="Welcome to my tModLoader Server!"
+      - TMOD_PASS="secret"
+      - TMOD_MAXPLAYERS="16"
+      - TMOD_WORLDNAME="Earth"
+      - TMOD_WORLDSIZE="2"
+      - TMOD_WORLDSEED="not the bees!"
+      # If set to "Yes", it is expected to have a config.txt mapped. The Server Settings above will be ignored.
+      - TMOD_USECONFIGFILE="No"
+
+    volumes:
+      - "/path/to/worlds/file:/root/.local/share/Terraria/tModLoader/Worlds"
+      - "/path/to/workshop/folder:/root/terraria-server/workshop-mods"
+      - "/path/to/config/config.txt:/root/terraria-server/config.txt"
