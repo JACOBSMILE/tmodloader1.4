@@ -114,7 +114,7 @@ The following are all of the environment variables that are supported by the con
 
 ```bash
 # Pull the image
-docker pull jacobsmile/tmodloader-docker:latest
+docker pull jacobsmile/tmodloader1.4:latest
 
 # Execute the container
 docker run -p 7777:7777 --name tmodloader --rm \
