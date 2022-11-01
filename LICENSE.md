@@ -1,4 +1,4 @@
-# This Copyright does NOT include that which is owned by Re-Logic, or the TML Team and only includes that which is contained in the Dockerfile and assorted scripts.
+# This Copyright does NOT include that which is owned by Re-Logic, or the TML Team and only includes that which is contained in the Dockerfile and assorted scripts, not counting the DotNetInstall script..
 
 Copyright 2022 JACOBSMILE
 
