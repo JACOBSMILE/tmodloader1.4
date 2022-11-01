@@ -1,4 +1,8 @@
 # tModLoader Powered By Docker
+
+[View on Github](https://github.com/JACOBSMILE/tmodloader1.4) |
+[View on Dockerhub](https://hub.docker.com/repository/docker/jacobsmile/tmodloader1.4)
+
 This Docker Image is designed to allow for easy configuration and setup of a modded Terraria server powered by tModLoader.
 
 ## Features
