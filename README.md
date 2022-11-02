@@ -11,6 +11,7 @@ This Docker Image is designed to allow for easy configuration and setup of a mod
 - Scheduled World Saving
 - Graceful Shutdowns
 - Configuration Files are optional
+- Github Automation to stay up-to-date with tModLoader's release cycle
 
 ## Credits & Mentions
 - Terraria
@@ -23,6 +24,24 @@ This Docker Image is designed to allow for easy configuration and setup of a mod
 - [ldericher](https://github.com/ldericher/tmodloader-docker)'s Docker implementation of tModLoader for Terraria 1.3 and command injection functionality
 - [rfvgyhn](https://github.com/rfvgyhn/tmodloader-docker)'s Docker implementation of tModLoader for Terraria 1.3
 - [guillheu](https://github.com/guillheu/tmodloader-docker)'s Docker implementation of tModLoader for Terraria 1.4 
+
+# Repository Automation & Daily Automated Builds
+The Github repository has been configured with an automated workflow to check for tModLoader updates daily and update the latest image and Dockerfile with the new tModLoader version. 
+
+Additionally, the Dockerhub registry will maintain all previous versions which are processed through this automated workflow. You can access these previous versions by pulling a repository with the tModLoader version string as the tag.
+
+## To Pull the Latest tModLoader Image
+
+```bash
+# ":latest" will pull the most recent tModLoader version from https://github.com/tModLoader/tModLoader/releases/latest
+docker pull jacobsmile/tmodloader1.4:latest
+```
+
+## To Pull a Specific tModLoader Image Version
+```bash
+# Replace 'v2022.09.47.13' with the version string found at https://github.com/tModLoader/tModLoader/releases
+docker pull jacobsmile/tmodloader1.4:v2022.09.47.13
+```
 
 # Container Preparation
 
@@ -158,6 +177,3 @@ _Credit to [ldericher](https://github.com/ldericher/tmodloader-docker) for this 
 
 # Notes
 I do not own tModLoader or Terraria. This Docker Image was created for players to easily host a game server with Docker, and is not intended to infringe on any Copyright, Trademark or Intellectual Property.
-
-Feel free to fork this repository and improve upon it if you wish. I plan to keep it as up-to-date as I can. Updating the tModLoader version should be as easy as changing the TMOD_VERSION argument in the Dockerfile.
-
