@@ -2,6 +2,10 @@ name: Get latest tModLoader Version
 on:
   schedule:
     - cron: '0 0 * * *' # Daily at midnight
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Manual Execution"
 jobs:
   get-tmod-version:
     runs-on: ubuntu-latest
