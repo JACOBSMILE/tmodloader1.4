@@ -7,7 +7,7 @@ on:
       version:
         description: "Manual Execution"
 jobs:
-  get-tmod-version:
+  update-tmodloader-version:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout Repository
@@ -35,9 +35,9 @@ jobs:
     - name: Build Docker Image
       if: ${{ env.CURRENT_VERSION != env.REPO_VERSION }}
       run: "docker build . --file ./Dockerfile --tag ${{ secrets.DOCKER_USER }}/tmodloader1.4:${{ env.REPO_VERSION }}"
-    - name: Push Image to Docker
+    - name: Push Image to DockerHub
       if: ${{ env.CURRENT_VERSION != env.REPO_VERSION }}
-      run: docker push ${{ secrets.DOCKER_USER }}/tmodloader1.4
+      run: docker push ${{ secrets.DOCKER_USER }}/tmodloader1.4:${{ env.REPO_VERSION }}
     - uses: stefanzweifel/git-auto-commit-action@v4
       if: ${{ env.CURRENT_VERSION != env.REPO_VERSION }}
       with:
