@@ -114,7 +114,7 @@ The following are all of the environment variables that are supported by the con
 
 ```bash
 # Pull the image
-docker pull jacobsmile/tmodloader-docker:latest
+docker pull jacobsmile/tmodloader1.4:latest
 
 # Execute the container
 docker run -p 7777:7777 --name tmodloader --rm \
@@ -156,7 +156,7 @@ You can alernatively use the UID of the container in place of `tmodloader` if yo
 _Credit to [ldericher](https://github.com/ldericher/tmodloader-docker) for this method of command injection to tModLoader's console._
 
 # Notes
-I do not own tModLoader or Terraria. This Docker Image was created for players to easily host a game server with Docker, and is not intended to infringe on any Copywrite, Trademark or Intellectual Property.
+I do not own tModLoader or Terraria. This Docker Image was created for players to easily host a game server with Docker, and is not intended to infringe on any Copyright, Trademark or Intellectual Property.
 
 Feel free to fork this repository and improve upon it if you wish. I plan to keep it as up-to-date as I can. Updating the tModLoader version should be as easy as changing the TMOD_VERSION argument in the Dockerfile.
 
