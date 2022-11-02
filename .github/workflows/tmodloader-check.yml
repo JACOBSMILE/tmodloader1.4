@@ -34,7 +34,7 @@ jobs:
       run: docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
     - name: Build Docker Image
       if: ${{ env.CURRENT_VERSION != env.REPO_VERSION }}
-      run: "docker build . --file ./Dockerfile --tag ${{ secrets.DOCKER_USER }}/tmodloader1.4:${{ env.REPO_VERSION }} --tag ${{ env.DOCKER_USER }}/tmodloader1.4:latest"
+      run: "docker build . --file ./Dockerfile --tag ${{ secrets.DOCKER_USER }}/tmodloader1.4:${{ env.REPO_VERSION }} --tag ${{ secrets.DOCKER_USER }}/tmodloader1.4:latest"
     - name: Push Image to DockerHub as Version
       if: ${{ env.CURRENT_VERSION != env.REPO_VERSION }}
       run: docker push ${{ secrets.DOCKER_USER }}/tmodloader1.4:${{ env.REPO_VERSION }}
