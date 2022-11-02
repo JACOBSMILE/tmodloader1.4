@@ -25,7 +25,7 @@ jobs:
     - name: Update Dockerfile Version
 
       if: ${{ env.CURRENT_VERSION != env.REPO_VERSION }}
-      run: sed -i "s/${{ env.CURRENT_VERSION }}/${{ env.REPO_VERSION }}" ./Dockerfile
+      run: sed -i "s/${{ env.CURRENT_VERSION }}/${{ env.REPO_VERSION }}/" ./Dockerfile
     - name: Login to Dockerhub
       if: ${{ env.CURRENT_VERSION != env.REPO_VERSION }}
       env:
