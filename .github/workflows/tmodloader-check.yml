@@ -1,0 +1,47 @@
+name: Get latest tModLoader Version
+on:
+  schedule:
+    - cron: '0 0 * * *' # Daily at midnight
+jobs:
+  get-tmod-version:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v2
+      with:
+        path: ./
+    - name: Get Current Version
+      run: echo "CURRENT_VERSION=$(grep -oP '(?<=\bTMOD_VERSION=)[^;]+' ./Dockerfile)" >> $GITHUB_ENV
+    - name: Print Stored Version Number
+      run: echo ${{ env.CURRENT_VERSION }}
+    - name: Get Repository Version
+      run: echo "REPO_VERSION=$(curl -sL https://api.github.com/repos/tModLoader/tModLoader/releases/latest | jq -r ".tag_name")" >> $GITHUB_ENV
+    - name: Print Repository Version
+      run: echo ${{ env.REPO_VERSION }}
+    - name: Update Dockerfile Version
+
+      if: ${{ env.CURRENT_VERSION != env.REPO_VERSION }}
+      run: sed -i "s/${{ env.CURRENT_VERSION }}/${{ env.REPO_VERSION }}" ./Dockerfile
+    - name: Login to Dockerhub
+      if: ${{ env.CURRENT_VERSION != env.REPO_VERSION }}
+      env:
+        DOCKER_USER: ${{ secrets.DOCKER_USER }}
+        DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+      run: docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
+    - name: Build Docker Image
+      if: ${{ env.CURRENT_VERSION != env.REPO_VERSION }}
+      run: "docker build ./build --file ./Dockerfile --tag ${{ secrets.DOCKER_USER }}/tmodloader1.4:${{ env.REPO_VERSION }}"
+    - name: Push Image to Docker
+      if: ${{ env.CURRENT_VERSION != env.REPO_VERSION }}
+      run: docker push ${{ secrets.DOCKER_USER }}/tmodloader1.4
+    - uses: stefanzweifel/git-auto-commit-action@v4
+      if: ${{ env.CURRENT_VERSION != env.REPO_VERSION }}
+      with:
+        commit_message: "Github Action: Updating to tModLoader version ${{ env.REPO_VERSION }}"
+        commit_options: '--no-verify --signoff'
+        repository: .
+        tagging_message: '${{ env.REPO_VERSION }}'
+        skip_fetch: true
+        skip_checkout: true
+        create_branch: false
+      
