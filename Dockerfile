@@ -1,12 +1,8 @@
 #FROM alpine:latest
 FROM ubuntu:latest
 
-# TMOD Version
-# Example:
-# ARG TMOD_VERSION=2022.09.47.9
-
 # The TMOD Version. Ensure that you follow the correct format. Version releases can be found at https://github.com/tModLoader/tModLoader/releases if you're lost.
-ARG TMOD_VERSION=2022.09.47.13
+ARG TMOD_VERSION=v2022.09.47.13
 
 # The shutdown message is broadcast to the game chat when the container was stopped from the host.
 ENV TMOD_SHUTDOWN_MESSAGE="Server is shutting down NOW!"
@@ -49,7 +45,7 @@ RUN tar -xvzf steamcmd_linux.tar.gz
 
 RUN /root/terraria-server/steamcmd.sh +force_install_dir /root/terraria-server/workshop-mods +login anonymous +quit
 	
-RUN wget https://github.com/tModLoader/tModLoader/releases/download/v${TMOD_VERSION}/tModLoader.zip 
+RUN wget https://github.com/tModLoader/tModLoader/releases/download/${TMOD_VERSION}/tModLoader.zip 
 RUN unzip -o tModLoader.zip 
 RUN rm tModLoader.zip 
 
