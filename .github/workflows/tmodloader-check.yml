@@ -1,4 +1,4 @@
-name: Get latest tModLoader Version
+name: tModLoader Version Auto-Updater
 on:
   schedule:
     - cron: '0 0 * * *' # Daily at midnight

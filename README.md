@@ -1,4 +1,5 @@
 # tModLoader Powered By Docker
+![Auto-Update Badge](https://github.com/JACOBSMILE/tmodloader1.4/actions/workflows/tmodloader-check.yml/badge.svg)
 
 [View on Github](https://github.com/JACOBSMILE/tmodloader1.4) |
 [View on Dockerhub](https://hub.docker.com/repository/docker/jacobsmile/tmodloader1.4)
