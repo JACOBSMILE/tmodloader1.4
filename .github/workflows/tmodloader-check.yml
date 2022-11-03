@@ -1,11 +1,7 @@
 name: tModLoader Version Auto-Updater
 on:
   schedule:
-    - cron: '0 0 * * *' # Daily at midnight
-  workflow_dispatch:
-    inputs:
-      version:
-        description: "Manual Execution"
+    - cron: "0 1 * * *" # Daily at midnight
 jobs:
   update-tmodloader-version:
     runs-on: ubuntu-latest
