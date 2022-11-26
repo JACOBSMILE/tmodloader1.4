@@ -42,14 +42,9 @@ if test -z "${TMOD_AUTODOWNLOAD}" ; then
     echo -e "For  more information, please see the Github README.\n\n"
     sleep 5s
 else
-    echo -e " [*] Downloading Mods specified in the TMOD_AUTODOWNLOAD Environment Variable..."
-    # Convert the Comma Separated list of Mod IDs to a iterable list, and then call SteamCMD to download them one by one.
-    echo -e $TMOD_AUTODOWNLOAD | tr "," "\n" | while read LINE
-    do
-        echo -e ""
-        echo -e " [*] Downloading Mod ID: $LINE\n\n"
-        /root/terraria-server/steamcmd.sh +force_install_dir /root/terraria-server/workshop-mods +login anonymous +workshop_download_item 1281930 $LINE +quit
-    done
+    echo -e " [*] Downloading Mods specified in the TMOD_AUTODOWNLOAD Environment Variable. This may hand a while depending on the number of mods..."
+    # Convert the Comma Separated list of Mod IDs to a list of SteamCMD commands and call SteamCMD to download them all.
+    /root/terraria-server/steamcmd.sh +force_install_dir /root/terraria-server/workshop-mods +login anonymous +workshop_download_item 1281930 `echo -e $TMOD_AUTODOWNLOAD | sed 's/,/ +workshop_download_item 1281930 /g'` +quit
     echo -e " [*] Finished downloading mods.\n\n"
 fi
 
