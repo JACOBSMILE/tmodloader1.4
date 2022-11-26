@@ -48,7 +48,7 @@ else
     do
         echo -e ""
         echo -e " [*] Downloading Mod ID: $LINE\n\n"
-        /root/terraria-server/steamcmd.sh +force_install_dir /root/terraria-server/workshop-mods +login anonymous +workshop_download_item 1281930 $LINE +quit
+        /root/terraria-server/steamcmd.sh +force_install_dir /root/terraria-server/workshop-mods +login anonymous +workshop_download_item 1281930 $LINE +quit &
     done
     echo -e " [*] Finished downloading mods.\n\n"
 fi
