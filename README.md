@@ -2,7 +2,7 @@
 ![Auto-Update Badge](https://github.com/JACOBSMILE/tmodloader1.4/actions/workflows/tmodloader-check.yml/badge.svg)
 
 [View on Github](https://github.com/JACOBSMILE/tmodloader1.4) |
-[View on Dockerhub](https://hub.docker.com/repository/docker/jacobsmile/tmodloader1.4)
+[View on Dockerhub](https://registry.hub.docker.com/r/jacobsmile/tmodloader1.4)
 
 This Docker Image is designed to allow for easy configuration and setup of a modded Terraria server powered by tModLoader.
 
