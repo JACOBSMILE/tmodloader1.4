@@ -11,7 +11,7 @@ services:
       # Download the Calamity mod and CalamityMusic mod.
       - "TMOD_AUTODOWNLOAD=2824688072,2824688266"
       # Enable the Calamity mod and CalamityMusic mod.
-      - "TMOD_LOADMODS=2824688072,2824688266"
+      - "TMOD_ENABLEDMODS=2824688072,2824688266"
       # Shutdown Message and Autosave Interval (In Minutes)
       - "TMOD_SHUTDOWN_MESSAGE=Goodbye!"
       - "TMOD_AUTOSAVE_INTERVAL=15"
