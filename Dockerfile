@@ -2,7 +2,7 @@
 FROM ubuntu:latest
 
 # The TMOD Version. Ensure that you follow the correct format. Version releases can be found at https://github.com/tModLoader/tModLoader/releases if you're lost.
-ARG TMOD_VERSION=v2022.09.47.24
+ARG TMOD_VERSION=v2022.09.47.26
 
 # The shutdown message is broadcast to the game chat when the container was stopped from the host.
 ENV TMOD_SHUTDOWN_MESSAGE="Server is shutting down NOW!"
