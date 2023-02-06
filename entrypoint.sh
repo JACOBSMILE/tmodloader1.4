@@ -89,7 +89,7 @@ server="/root/terraria-server/LaunchUtils/ScriptCaller.sh -server -steamworkshop
 
 # If config, we supply it at the command line.
 if [[ "$TMOD_USECONFIGFILE" == "Yes" ]]; then
-  server="$server -config /root/terraria-server/config.txt"
+  server="$server -config /root/terraria-server/serverconfig.txt"
 
 else
   # Check if the world file exists.

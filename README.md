@@ -73,8 +73,8 @@ If you would rather have the server read from a configuration file, you may map 
 Refer to the [Terraria Server Documentation]((https://terraria.fandom.com/wiki/Server#Server_config_file)) on how to setup a configuration file.
 
 ```bash
-# Exporting the path to the config.txt to a variable
-export TMOD_CONFIGFILE=/path/to/config.txt
+# Exporting the path to the serverconfig.txt to a variable
+export TMOD_CONFIGFILE=/path/to/serverconfig.txt
 ```
 ---
 
@@ -140,7 +140,7 @@ docker pull jacobsmile/tmodloader1.4:latest
 docker run -p 7777:7777 --name tmodloader --rm \
   -v $TMOD_WORLDS:/root/.local/share/Terraria/tModLoader/Worlds \
   -v $TMOD_WORKSHOP:/root/terraria-server/workshop-mods \
-  -v $TMOD_CONFIGFILE:/root/terraria-server/config.txt \
+  -v $TMOD_CONFIGFILE:/root/terraria-server/serverconfig.txt \
   -e TMOD_SHUTDOWN_MESSAGE='Goodbye!' \
   -e TMOD_AUTOSAVE_INTERVAL='15' \
   -e TMOD_AUTODOWNLOAD='2824688072,2824688266' \
