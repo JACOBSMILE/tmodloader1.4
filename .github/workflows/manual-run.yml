@@ -1,8 +1,7 @@
 name: Manual tModLoader Repository Update
 on:
-  pull_request:
-    types:
-      - closed
+  workflow_dispatch:
+
 jobs:
   manual-run:
     runs-on: ubuntu-latest
