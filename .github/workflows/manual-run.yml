@@ -1,4 +1,4 @@
-name: Repository Update
+name: Manual tModLoader Repository Update
 on:
   pull_request:
     types:
