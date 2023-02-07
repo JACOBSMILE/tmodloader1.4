@@ -25,6 +25,12 @@ This Docker Image is designed to allow for easy configuration and setup of a mod
 - [rfvgyhn](https://github.com/rfvgyhn/tmodloader-docker)'s Docker implementation of tModLoader for Terraria 1.3
 - [guillheu](https://github.com/guillheu/tmodloader-docker)'s Docker implementation of tModLoader for Terraria 1.4 
 
+## Check out all of my Terraria Images!
+
+1.4 Vanilla Terraria: [Github](https://github.com/JACOBSMILE/terraria1.4) | [Dockerhub](https://hub.docker.com/r/jacobsmile/terraria1.4)
+
+1.4 tModLoader: [Github](https://github.com/JACOBSMILE/tmodloader1.4) | [Dockerhub](https://hub.docker.com/r/jacobsmile/tmodloader1.4)
+
 # Repository Automation & Daily Automated Builds
 The Github repository has been configured with an automated workflow to check for tModLoader updates daily and update the latest image and Dockerfile with the new tModLoader version. 
 
