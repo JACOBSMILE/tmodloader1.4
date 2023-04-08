@@ -1,5 +1,38 @@
-#FROM alpine:latest
+# Builder is ubuntu-based because we need i386 libs
+FROM steamcmd/steamcmd:ubuntu-22 as builder
+
+# Install prerequisites to download steamcmd
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends curl tar
+WORKDIR /root/installer
+
+# Download and unpack installer
+RUN curl -sqL https://steamcdn-a.akamaihd.net/client/installer/steamcmd_linux.tar.gz | tar zxvf -
+
+#####
+
 FROM ubuntu:latest
+
+# Copy steamcmd and its required libs from the builder
+COPY --from=builder /root/installer/steamcmd.sh /usr/lib/games/steam/
+COPY --from=builder /root/installer/linux32/steamcmd /usr/lib/games/steam/
+COPY --from=builder /usr/games/steamcmd /usr/bin/steamcmd
+COPY --from=builder /etc/ssl/certs /etc/ssl/certs
+COPY --from=builder /lib/i386-linux-gnu /lib/
+COPY --from=builder /root/installer/linux32/libstdc++.so.6 /lib/
+RUN chown -R root:root /usr/bin/ /etc/ssl/certs /lib/ /usr/lib/
+
+RUN apt-get update \
+    && apt-get install -y wget unzip tmux bash libsdl2-2.0-0
+        
+# Create a user and drop root
+RUN useradd -ms /bin/bash npc
+ENV HOME=/home/npc
+USER npc
+
+###
+
+EXPOSE 7777
 
 # The TMOD Version. Ensure that you follow the correct format. Version releases can be found at https://github.com/tModLoader/tModLoader/releases if you're lost.
 ARG TMOD_VERSION=v2022.09.47.46
@@ -26,43 +59,37 @@ ENV TMOD_WORLDNAME="Docker"
 ENV TMOD_WORLDSIZE="3"
 ENV TMOD_WORLDSEED="Docker"
 
-# Loading a configuration file expects a proper Terraria config file to be mapped to /root/terraria-server/serverconfig.txt
+# Loading a configuration file expects a proper Terraria config file to be mapped to $HOME/terraria-server/serverconfig.txt
 # Set this to "Yes" if you would rather use a config file instead of the above settings.
 ENV TMOD_USECONFIGFILE="No"
 
-EXPOSE 7777
+###
 
-RUN apt-get update
-RUN apt-get install -y wget unzip tmux bash lib32gcc-s1 libsdl2-2.0-0
+WORKDIR $HOME/terraria-server
 
-RUN mkdir -p /root/.steam/sdk64
-RUN ln -s /root/.steam/steamcmd/linux64/steamclient.so /root/.steam/sdk64/steamclient.so
+RUN steamcmd $HOME/terraria-server +login anonymous +quit
 
-WORKDIR /root/terraria-server
-
-RUN wget https://steamcdn-a.akamaihd.net/client/installer/steamcmd_linux.tar.gz
-RUN tar -xvzf steamcmd_linux.tar.gz
-
-RUN /root/terraria-server/steamcmd.sh +force_install_dir /root/terraria-server/workshop-mods +login anonymous +quit
-	
 RUN wget https://github.com/tModLoader/tModLoader/releases/download/${TMOD_VERSION}/tModLoader.zip 
-RUN unzip -o tModLoader.zip 
-RUN rm tModLoader.zip 
+RUN unzip -o tModLoader.zip \
+    && rm tModLoader.zip 
 
 COPY DotNetInstall.sh ./LaunchUtils
-RUN chmod u+x LaunchUtils/DotNetInstall.sh
-RUN ./LaunchUtils/DotNetInstall.sh
-
-RUN chmod u+x ./start-tModLoaderServer.sh
-RUN chmod u+x LaunchUtils/ScriptCaller.sh
-
-RUN mkdir -p /root/.local/share/Terraria/tModLoader/Worlds 
-RUN mkdir /root/.local/share/Terraria/tModLoader/Mods
-
 COPY entrypoint.sh .
 COPY inject.sh /usr/local/bin/inject
 COPY autosave.sh .
 
-RUN chmod +x entrypoint.sh /usr/local/bin/inject autosave.sh
+# Acquire root once more just to set the correct permissions, and drop it again immediately
+USER root
+RUN chown -R npc:npc /home/npc \
+    && chmod u+x ./LaunchUtils/DotNetInstall.sh \
+    && chmod u+x ./start-tModLoaderServer.sh \
+    && chmod u+x ./LaunchUtils/ScriptCaller.sh \
+    && chmod +x entrypoint.sh /usr/local/bin/inject autosave.sh
+USER npc
+
+RUN LaunchUtils/DotNetInstall.sh
+
+RUN mkdir -p $HOME/.local/share/Terraria/tModLoader/Worlds \
+    && mkdir -p $HOME/.local/share/Terraria/tModLoader/Mods
 
 ENTRYPOINT ["./entrypoint.sh"]

@@ -3,7 +3,7 @@ pipe=/tmp/tmod.pipe
 
 # Check Config
 if [[ "$TMOD_USECONFIGFILE" == "Yes" ]]; then
-  if [ -e /root/terraria-server/serverconfig.txt ]; then
+  if [ -e $HOME/terraria-server/serverconfig.txt ]; then
     echo -e "tModLoader server will launch with the supplied config file."
   else
     echo -e "[!!] ERROR: The tModLoader server was set to launch with a config file, but it was not found. Please map the file and launch the server again."
@@ -44,13 +44,14 @@ if test -z "${TMOD_AUTODOWNLOAD}" ; then
 else
     echo -e " [*] Downloading Mods specified in the TMOD_AUTODOWNLOAD Environment Variable. This may hand a while depending on the number of mods..."
     # Convert the Comma Separated list of Mod IDs to a list of SteamCMD commands and call SteamCMD to download them all.
-    /root/terraria-server/steamcmd.sh +force_install_dir /root/terraria-server/workshop-mods +login anonymous +workshop_download_item 1281930 `echo -e $TMOD_AUTODOWNLOAD | sed 's/,/ +workshop_download_item 1281930 /g'` +quit
+    # steamcmd +login anonymous +workshop_download_item 1281930 `echo -e $TMOD_AUTODOWNLOAD | sed 's/,/ +workshop_download_item 1281930 /g'` +quit
+    steamcmd +login anonymous +workshop_download_item 1281930 `echo -e $TMOD_AUTODOWNLOAD | sed 's/,/ +workshop_download_item 1281930 /g'` +quit
     echo -e " [*] Finished downloading mods.\n\n"
 fi
 
 # Enable Mods
-enabledpath=/root/.local/share/Terraria/tModLoader/Mods/enabled.json
-modpath=/root/terraria-server/workshop-mods/steamapps/workshop/content/1281930
+enabledpath=$HOME/.local/share/Terraria/tModLoader/Mods/enabled.json
+modpath=$HOME/Steam/steamapps/workshop/content/1281930
 rm -f $enabledpath
 
 if test -z "${TMOD_ENABLEDMODS}" ; then
@@ -85,21 +86,21 @@ else
 fi
 
 # Base startup command
-server="/root/terraria-server/LaunchUtils/ScriptCaller.sh -server -steamworkshopfolder \"/root/terraria-server/workshop-mods/steamapps/workshop\""
+server="$HOME/terraria-server/LaunchUtils/ScriptCaller.sh -server -steamworkshopfolder \"$HOME/Steam/steamapps/workshop\""
 
 # If config, we supply it at the command line.
 if [[ "$TMOD_USECONFIGFILE" == "Yes" ]]; then
-  server="$server -config /root/terraria-server/serverconfig.txt"
+  server="$server -config $HOME/terraria-server/serverconfig.txt"
 
 else
   # Check if the world file exists.
-  if [ -e "/root/.local/share/Terraria/tModLoader/Worlds/$TMOD_WORLDNAME.wld" ]; then
-    server="$server -world \"/root/.local/share/Terraria/tModLoader/Worlds/$TMOD_WORLDNAME.wld\""
+  if [ -e "$HOME/.local/share/Terraria/tModLoader/Worlds/$TMOD_WORLDNAME.wld" ]; then
+    server="$server -world \"$HOME/.local/share/Terraria/tModLoader/Worlds/$TMOD_WORLDNAME.wld\""
   else
   # If it does not, alert the player, and set the startup parameters to automatically generate the world.
     echo -e "[!!] WARNING: The world \"$TMOD_WORLDNAME\" was not found. The server will automatically create a new world."
     sleep 3s
-    server="$server -world \"/root/.local/share/Terraria/tModLoader/Worlds/$TMOD_WORLDNAME.wld\""
+    server="$server -world \"$HOME/.local/share/Terraria/tModLoader/Worlds/$TMOD_WORLDNAME.wld\""
     server="$server -autocreate $TMOD_WORLDSIZE -worldname \"$TMOD_WORLDNAME\" -seed \"$TMOD_WORLDSEED\""
   fi
 
@@ -125,7 +126,7 @@ mkfifo $pipe
 tmux new-session -d "$server | tee $pipe"
 
 # Call the autosaver
-/root/terraria-server/autosave.sh &
+$HOME/terraria-server/autosave.sh &
 
 # Infinitely print the contents of the pipe, so the container still logs the Terraria Server.
 cat $pipe &
