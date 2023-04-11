@@ -58,6 +58,13 @@ Create a directory on Host machine to house the world file as well as backups.
 mkdir /path/to/worlds/directory
 export TMOD_WORLDS=/path/to/worlds/directory
 ```
+
+Then you will need to specify your TMOD_WORLDS variable when running the container, like the following example.
+
+```bash
+-v $TMOD_WORLDS:/root/.local/share/Terraria/tModLoader/Worlds
+```
+
 _You can omit this, though the worlds will not be saved after your container shuts down! You have been warned._
 
 ---
@@ -71,17 +78,36 @@ This is optional, but including this in your configuration will **greatly reduce
 mkdir /path/to/workshop/directory
 export TMOD_WORKSHOP=/path/to/workshop/directory
 ```
+
+Then you will need to specify your TMOD_WORKSHOP variable when running the container, like the following example.
+
+```bash
+-v $TMOD_WORKSHOP:/root/terraria-server/workshop-mods
+```
+
 ---
 
-### Server Configuration File (Optional)
-If you would rather have the server read from a configuration file, you may map the configuration file directly. Be sure to set the `TMOD_USECONFIGFILE` environment variable to a value of `YES`.
+### _(DEPRECRATED)_ Server Configuration File (Optional)
+If you would rather have the server read from a configuration file you've created, you may map the configuration file directly. Be sure to set the `TMOD_USECONFIGFILE` environment variable to a value of `YES`.
 
 Refer to the [Terraria Server Documentation]((https://terraria.fandom.com/wiki/Server#Server_config_file)) on how to setup a configuration file.
 
+
 ```bash
-# Exporting the path to the serverconfig.txt to a variable
-export TMOD_CONFIGFILE=/path/to/serverconfig.txt
+# Exporting the path to the customconfig.txt to a variable
+export TMOD_CONFIGFILE=/path/to/customconfig.txt
 ```
+
+Then you will need to specify your TMOD_CONFIGFILE variable when running the container, like the following example.
+
+This container expects the file to be at this exact path in the container: `/root/terraria-server/customconfig.txt`.
+
+```bash
+-v $TMOD_CONFIGFILE:/root/terraria-server/customconfig.txt \
+```
+
+_Please note, while you are able to specify a config file, it has been deprecated as of April 2023 due to updates to the Environment Variable handling._
+
 ---
 
 ## Downloading Mods
@@ -118,21 +144,49 @@ Additionally, you may at any time remove a mod from the `TMOD_ENABLEDMODS` varia
 ---
 
 # Environment Variables
-The following are all of the environment variables that are supported by the container.
+The following are all of the environment variables that are supported by the container. These handle server functionality and Terraria server configurations.
 
 | Variable      | Default Value | Description |
 | ----------- | ----------- | ----------- |
 | TMOD_SHUTDOWN_MESSAGE | Server is shutting down NOW! | The message which will be sent to the in-game chat upon container shutdown.
 | TMOD_AUTOSAVE_INTERVAL   | 10 | The autosave interval (in minutes) in which the World will be saved.
 | TMOD_AUTODOWNLOAD | N/A | A Comma Separated list of Workshop Mod IDs to download from Steam upon container startup.
-| TMOD_ENABLEDMODS | N/A | A Comma Separated list of Workshop Mod IDs to enable on the tModLoader server upon startup. 
+| TMOD_ENABLEDMODS | N/A | A Comma Separated list of Workshop Mod IDs to enable on the tModLoader server upon startup.
+| TMOD_USECONFIGFILE | No | If you wish to use a config file to specify server settings, set this variable to "Yes". Please note, this has been deprecated.
 | TMOD_MOTD | A tModLoader server powered by Docker! | The Message of the Day which prints in the chat upon joining the server.
 | TMOD_PASS | docker | The password players must supply to join the server. Set this variable to "N/A" to disable requiring a password on join. (Not Recommended)
 | TMOD_MAXPLAYERS | 8 | The maximum number of players which can join the server at once.
 | TMOD_WORLDNAME | Docker | The name of the world file. This is seen in-game as well as will be used for the name of the .WLD file.
-| TMOD_WORLDSIZE | 3 | When generating a new world, this variable will be used to designate the size. 1 = Small, 2 = Medium, 3 = Large
+| TMOD_WORLDSIZE | 3 | When generating a new world (and only when generating a new world), this variable will be used to designate the size. 1 = Small, 2 = Medium, 3 = Large
 | TMOD_WORLDSEED | Docker | The seed for a new world.
-| TMOD_USECONFIGFILE | No | If you wish to use a config file  to specify MOTD, Password, Max Players, World Name, World Size, World Seed, and a few other additional settings, set this to "Yes".
+| TMOD_DIFFICULTY | 1 | When generating a new world (and only when generating a new world), this variable will set the difficulty of the world. 1 = Normal, 2 = Master, 3 = Journey.
+| TMOD_SECURE | 0 | Adds additional cheat protection.
+| TMOD_LANGUAGE | en-US | Sets the language for the server. Available options are: `en-US` (English), `de-DE` (German), `it-IT` (Italian), `fr-FR` (French), `es-ES` (Spanish), `ru-RU` (Russian), `zh-Hans` (Chinese), `pt-BR` (Portuguese), `pl-PL` (Polish).
+| TMOD_NPCSTREAM | 60 | Reduces enemy skipping, but increases bandwidth usage. The lower the number, the less skipping will happeb, but more data is sent. 0 is off.
+| TMOD_UPNP | 0 | Automatically forwards ports with uPNP (untested, and may not work in all cases depending on network configuration)
+
+The following are environment variables which control Journey Mode settings. For all of these settings, 
+* 0 = Locked for everyone 
+* 1 = Only Changeable by Host
+* 2 = Can be changed by everyone. 
+
+Refer to the [Terraria Server Wiki](https://terraria.fandom.com/wiki/Server) for more information. The default setting for all of these is 0 when not explicitly set.
+
+* TMOD_JOURNEY_SETFROZEN
+* TMOD_JOURNEY_SETDAWN
+* TMOD_JOURNEY_SETNOON
+* TMOD_JOURNEY_SETDUSK
+* TMOD_JOURNEY_SETMIDNIGHT
+* TMOD_JOURNEY_GODMODE
+* TMOD_JOURNEY_WIND_STRENGTH
+* TMOD_JOURNEY_RAIN_STRENGTH
+* TMOD_JOURNEY_TIME_SPEED
+* TMOD_JOURNEY_RAIN_FROZEN
+* TMOD_JOURNEY_WIND_FROZEN
+* TMOD_JOURNEY_PLACEMENT_RANGE
+* TMOD_JOURNEY_SET_DIFFICULTY
+* TMOD_JOURNEY_BIOME_SPREAD
+* TMOD_JOURNEY_SPAWN_RATE
 
 # Running the Container
 
@@ -146,7 +200,6 @@ docker pull jacobsmile/tmodloader1.4:latest
 docker run -p 7777:7777 --name tmodloader --rm \
   -v $TMOD_WORLDS:/root/.local/share/Terraria/tModLoader/Worlds \
   -v $TMOD_WORKSHOP:/root/terraria-server/workshop-mods \
-  -v $TMOD_CONFIGFILE:/root/terraria-server/serverconfig.txt \
   -e TMOD_SHUTDOWN_MESSAGE='Goodbye!' \
   -e TMOD_AUTOSAVE_INTERVAL='15' \
   -e TMOD_AUTODOWNLOAD='2824688072,2824688266' \
@@ -157,7 +210,7 @@ docker run -p 7777:7777 --name tmodloader --rm \
   -e TMOD_WORLDNAME='Earth' \
   -e TMOD_WORLDSIZE='2' \
   -e TMOD_WORLDSEED='not the bees!' \
-  -e TMOD_USECONFIGFILE='No' \
+  -e TMOD_DIFFICULTY='3' \
   jacobsmile/tmodloader1.4
 ```
 

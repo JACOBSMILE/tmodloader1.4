@@ -19,13 +19,16 @@ services:
       - "TMOD_MOTD=Welcome to my tModLoader Server!"
       - "TMOD_PASS=secret"
       - "TMOD_MAXPLAYERS=16"
+      # The following world settings are only used when generating a new world.
       - "TMOD_WORLDNAME=Earth"
       - "TMOD_WORLDSIZE=2"
       - "TMOD_WORLDSEED=not the bees!"
-      # If set to "Yes", it is expected to have a config.txt mapped. The Server Settings above will be ignored.
+      - "TMOD_DIFFICULTY=3"
+      # (Deprecated) If TMOD_USECONFIGFILE is set to "Yes", it is expected to have a serverconfig.txt mapped. The Server Settings above will be ignored.
       - "TMOD_USECONFIGFILE=No"
 
     volumes:
       - "/path/to/worlds/file:/root/.local/share/Terraria/tModLoader/Worlds"
       - "/path/to/workshop/folder:/root/terraria-server/workshop-mods"
-      - "/path/to/config/config.txt:/root/terraria-server/serverconfig.txt"
+      # Uncomment the below line if you plan to use a mapped config file. 
+      # - "/path/to/config/config.txt:/root/terraria-server/serverconfig.txt"
