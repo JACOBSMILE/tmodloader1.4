@@ -5,7 +5,19 @@ echo -e "[SYSTEM] Shutdown Message set to: $TMOD_SHUTDOWN_MESSAGE"
 echo -e "[SYSTEM] Save Interval set to: $TMOD_AUTOSAVE_INTERVAL minutes"
 
 configPath=/root/terraria-server/serverconfig.txt
-./prepare-config.sh
+
+# Check Config
+if [[ "$TMOD_USECONFIGFILE" == "Yes" ]]; then
+    if [ -e /root/terraria-server/customconfig.txt ]; then
+        echo -e "[!!] The tModLoader server was set to load with a config file. It will be used instead of the environment variables."
+    else
+        echo -e "[!!] FATAL: The tModLoader server was set to launch with a config file, but it was not found. Please map the file to /root/terraria-server/customconfig.txt and launch the server again."
+        sleep 5s
+        exit 1
+    fi
+else
+  ./prepare-config.sh
+fi
 
 # Trapped Shutdown, to cleanly shutdown
 function shutdown () {

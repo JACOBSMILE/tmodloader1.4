@@ -18,6 +18,9 @@ ENV TMOD_AUTODOWNLOAD=""
 # Example format: 2824688072,2824688266,2835214226
 ENV TMOD_ENABLEDMODS=""
 
+# If you want to specify your own config, set the following to "Yes".
+ENV TMOD_USECONFIGFILE="No"
+
 #--------- CONFIG SECTION --------- #
 # The following environment variables will configure common settings for the tModLoader server.
 
