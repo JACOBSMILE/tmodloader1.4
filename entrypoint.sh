@@ -1,5 +1,4 @@
 #!/bin/bash
-
 pipe=/tmp/tmod.pipe
 
 echo -e "[SYSTEM] Shutdown Message set to: $TMOD_SHUTDOWN_MESSAGE"
