@@ -144,7 +144,10 @@ RUN chown -R terraria:terraria /home/terraria \
     && chmod u+x ./LaunchUtils/DotNetInstall.sh \
     && chmod u+x ./start-tModLoaderServer.sh \
     && chmod u+x ./LaunchUtils/ScriptCaller.sh \
-    && chmod u+x ./entrypoint.sh /usr/local/bin/inject ./autosave.sh ./prepare-config.sh
+    && chmod u+x ./entrypoint.sh \
+    && chmod u+x /usr/local/bin/inject \
+    && chmod u+x ./autosave.sh \
+    && chmod u+x ./prepare-config.sh
 USER terraria
 
 RUN ./LaunchUtils/DotNetInstall.sh
