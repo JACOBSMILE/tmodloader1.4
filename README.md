@@ -1,6 +1,11 @@
 # tModLoader Powered By Docker
 ![Auto-Update Badge](https://github.com/JACOBSMILE/tmodloader1.4/actions/workflows/tmodloader-check.yml/badge.svg)
 
+---
+# Important Notice
+## [Software Field Bulletin Regarding Changes to Directory Mapping](https://github.com/JACOBSMILE/tmodloader1.4/wiki/SFB:-Removing-Dependency-on-Root-(Issue-12))
+---
+
 [View on Github](https://github.com/JACOBSMILE/tmodloader1.4) |
 [View on Dockerhub](https://registry.hub.docker.com/r/jacobsmile/tmodloader1.4)
 
