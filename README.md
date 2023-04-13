@@ -109,7 +109,7 @@ Then you will need to specify your TMOD_CONFIGFILE variable when running the con
 This container expects the file to be at this exact path in the container: `/home/terraria/terraria-server/customconfig.txt`.
 
 ```bash
--v $TMOD_CONFIGFILE:/home/terraria/terraria-server/customconfig.txt \
+-v $TMOD_CONFIGFILE:/home/terraria/terraria-server/customconfig.txt
 ```
 
 _Please note, while you are able to specify a config file, it has been deprecated as of April 2023 due to updates to the Environment Variable handling._
