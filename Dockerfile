@@ -17,6 +17,9 @@ FROM ubuntu:latest
 # The TMOD Version. Ensure that you follow the correct format. Version releases can be found at https://github.com/tModLoader/tModLoader/releases if you're lost.
 ARG TMOD_VERSION=v2022.09.47.47
 
+# Sends update messages to the console before launch.
+ENV UPDATE_NOTICE="true"
+
 # The shutdown message is broadcast to the game chat when the container was stopped from the host.
 ENV TMOD_SHUTDOWN_MESSAGE="Server is shutting down NOW!"
 
@@ -114,9 +117,9 @@ RUN apt-get update \
     && apt-get install -y wget unzip tmux bash libsdl2-2.0-0
 
 # Create a user and drop root
-RUN useradd -ms /bin/bash npc
-ENV HOME=/home/npc
-USER npc
+RUN useradd -ms /bin/bash terraria
+ENV HOME=/home/terraria
+USER terraria
 
 EXPOSE 7777
 
@@ -136,12 +139,12 @@ COPY prepare-config.sh .
 
 # Acquire root once more just to set the correct permissions, and drop it again immediately
 USER root
-RUN chown -R npc:npc /home/npc \
+RUN chown -R terraria:terraria /home/terraria \
     && chmod u+x ./LaunchUtils/DotNetInstall.sh \
     && chmod u+x ./start-tModLoaderServer.sh \
     && chmod u+x ./LaunchUtils/ScriptCaller.sh \
     && chmod u+x ./entrypoint.sh /usr/local/bin/inject ./autosave.sh ./prepare-config.sh
-USER npc
+USER terraria
 
 RUN ./LaunchUtils/DotNetInstall.sh
 RUN mkdir -p $HOME/.local/share/Terraria/tModLoader/Worlds \
