@@ -127,6 +127,8 @@ WORKDIR $HOME/terraria-server
 
 RUN steamcmd $HOME/terraria-server +login anonymous +quit
 
+# Acquire root once more just to set the correct permissions and download
+USER root
 RUN wget https://github.com/tModLoader/tModLoader/releases/download/${TMOD_VERSION}/tModLoader.zip 
 RUN unzip -o tModLoader.zip \
     && rm tModLoader.zip
@@ -137,8 +139,7 @@ COPY inject.sh /usr/local/bin/inject
 COPY autosave.sh .
 COPY prepare-config.sh .
 
-# Acquire root once more just to set the correct permissions, and drop it again immediately
-USER root
+
 RUN chown -R terraria:terraria /home/terraria \
     && chmod u+x ./LaunchUtils/DotNetInstall.sh \
     && chmod u+x ./start-tModLoaderServer.sh \
