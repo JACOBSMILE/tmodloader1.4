@@ -28,7 +28,7 @@ services:
       - "TMOD_USECONFIGFILE=No"
 
     volumes:
-      - "/path/to/worlds/file:/root/.local/share/Terraria/tModLoader/Worlds"
-      - "/path/to/workshop/folder:/root/terraria-server/workshop-mods"
+      - "/path/to/worlds/file:/home/terraria/.local/share/Terraria/tModLoader/Worlds"
+      - "/path/to/workshop/folder:/home/terraria/terraria-server/workshop-mods"
       # Uncomment the below line if you plan to use a mapped config file. 
       # - "/path/to/config/config.txt:/root/terraria-server/serverconfig.txt"
