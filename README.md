@@ -68,7 +68,7 @@ export TMOD_WORLDS=/path/to/worlds/directory
 Then you will need to specify your TMOD_WORLDS variable when running the container, like the following example.
 
 ```bash
--v $TMOD_WORLDS:$HOME/.local/share/Terraria/tModLoader/Worlds
+-v $TMOD_WORLDS:/home/terraria/.local/share/Terraria/tModLoader/Worlds
 ```
 
 _You can omit this, though the worlds will not be saved after your container shuts down! You have been warned._
@@ -88,7 +88,7 @@ export TMOD_WORKSHOP=/path/to/workshop/directory
 Then you will need to specify your TMOD_WORKSHOP variable when running the container, like the following example.
 
 ```bash
--v $TMOD_WORKSHOP:$HOME/terraria-server/workshop-mods
+-v $TMOD_WORKSHOP:/home/terraria/terraria-server/workshop-mods
 ```
 
 ---
@@ -106,10 +106,10 @@ export TMOD_CONFIGFILE=/path/to/customconfig.txt
 
 Then you will need to specify your TMOD_CONFIGFILE variable when running the container, like the following example.
 
-This container expects the file to be at this exact path in the container: `$HOME/terraria-server/customconfig.txt`.
+This container expects the file to be at this exact path in the container: `/home/terraria/terraria-server/customconfig.txt`.
 
 ```bash
--v $TMOD_CONFIGFILE:$HOME/terraria-server/customconfig.txt \
+-v $TMOD_CONFIGFILE:/home/terraria/terraria-server/customconfig.txt \
 ```
 
 _Please note, while you are able to specify a config file, it has been deprecated as of April 2023 due to updates to the Environment Variable handling._
@@ -204,8 +204,8 @@ docker pull jacobsmile/tmodloader1.4:latest
 
 # Execute the container
 docker run -p 7777:7777 --name tmodloader --rm \
-  -v $TMOD_WORLDS:$HOME/.local/share/Terraria/tModLoader/Worlds \
-  -v $TMOD_WORKSHOP:$HOME/terraria-server/workshop-mods \
+  -v $TMOD_WORLDS:/home/terraria/.local/share/Terraria/tModLoader/Worlds \
+  -v $TMOD_WORKSHOP:/home/terraria/terraria-server/workshop-mods \
   -e TMOD_SHUTDOWN_MESSAGE='Goodbye!' \
   -e TMOD_AUTOSAVE_INTERVAL='15' \
   -e TMOD_AUTODOWNLOAD='2824688072,2824688266' \
