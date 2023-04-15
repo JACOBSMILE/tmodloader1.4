@@ -1,6 +1,14 @@
 #!/bin/bash
 pipe=/tmp/tmod.pipe
 
+mkdir $WORLDSPATH
+mkdir $MODSPATH
+tModLoader_ID=1281930
+internalModsPathPrefix=$HOME/mods
+internalModsFullPath=$internalModsPathPrefix/steamapps/workshop/content/
+mkdir -p $internalModsFullPath
+ln -s -T $MODSPATH $internalModsFullPath/$tModLoader_ID
+
 if [[ "$UPDATE_NOTICE" != "false" ]]; then
   echo -e "\n\n!!-------------------------------------------------------------------!!"
   echo -e "REGARDING ISSUE #12"
@@ -18,14 +26,14 @@ fi
 echo -e "[SYSTEM] Shutdown Message set to: $TMOD_SHUTDOWN_MESSAGE"
 echo -e "[SYSTEM] Save Interval set to: $TMOD_AUTOSAVE_INTERVAL minutes"
 
-configPath=$HOME/terraria-server/serverconfig.txt
+CONFIGPATH=$DATAPATH/server_config.txt
 
 # Check Config
 if [[ "$TMOD_USECONFIGFILE" == "Yes" ]]; then
-    if [ -e $HOME/terraria-server/customconfig.txt ]; then
+    if [ -e $CONFIGPATH ]; then
         echo -e "[!!] The tModLoader server was set to load with a config file. It will be used instead of the environment variables."
     else
-        echo -e "[!!] FATAL: The tModLoader server was set to launch with a config file, but it was not found. Please map the file to $HOME/terraria-server/customconfig.txt and launch the server again."
+        echo -e "[!!] FATAL: The tModLoader server was set to launch with a config file, but it was not found. Please map the file to $CONFIGPATH and launch the server again."
         sleep 5s
         exit 1
     fi
@@ -54,13 +62,13 @@ if test -z "${TMOD_AUTODOWNLOAD}" ; then
 else
     echo -e "[SYSTEM] Downloading Mods specified in the TMOD_AUTODOWNLOAD Environment Variable. This may hand a while depending on the number of mods..."
     # Convert the Comma Separated list of Mod IDs to a list of SteamCMD commands and call SteamCMD to download them all.
-    steamcmd +force_install_dir $HOME/terraria-server/workshop-mods +login anonymous +workshop_download_item 1281930 `echo -e $TMOD_AUTODOWNLOAD | sed 's/,/ +workshop_download_item 1281930 /g'` +quit
+    steamcmd +force_install_dir $internalModsPathPrefix +login anonymous +workshop_download_item 1281930 `echo -e $TMOD_AUTODOWNLOAD | sed 's/,/ +workshop_download_item 1281930 /g'` +quit
     echo -e "[SYSTEM] Finished downloading mods."
 fi
 
 # Enable Mods
-enabledpath=$HOME/.local/share/Terraria/tModLoader/Mods/enabled.json
-modpath=$HOME/terraria-server/workshop-mods/steamapps/workshop/content/1281930
+enabledpath=$DATAPATH/enabled_mods.json
+
 rm -f $enabledpath
 
 if test -z "${TMOD_ENABLEDMODS}" ; then
@@ -79,21 +87,22 @@ else
       echo -e "[!!] Mod ID $LINE not found! Has it been downloaded?"
       continue
     fi
-    modname=$(ls -1 $(ls -d $modpath/$LINE/*/|tail -n 1) | sed -e 's/\.tmod$//')
+    modname=$(ls -1 $(ls -d $internalModsFullPath/$tModLoader_ID/$LINE/*/|tail -n 1) | sed -e 's/\.tmod$//')
     if [ $? -ne 0 ]; then
       echo -e " [!!] An error occurred while attempting to load $LINE."
       continue
     fi
-    # For each mod name that we resolve, write the internal name of it to the enabled.json file.
+    # For each mod name that we resolve, write the internal name of it to the enabled_mods.json file.
     echo "\"$modname\"," >> $enabledpath
     echo -e "[SYSTEM] Enabled $modname ($LINE) "
   done
+    echo ']' >> $enabledpath
     echo ']' >> $enabledpath
     echo "\n[SYSTEM] Finished loading mods."
 fi
 
 # Startup command
-server="$HOME/terraria-server/LaunchUtils/ScriptCaller.sh -server -steamworkshopfolder \"$HOME/terraria-server/workshop-mods/steamapps/workshop\" -config \"$configPath\""
+server="$HOME/LaunchUtils/ScriptCaller.sh -server -steamworkshopfolder \"$internalModsFullPath\" -config \"$CONFIGPATH\""
 
 # Trap the shutdown
 trap shutdown TERM INT
@@ -106,7 +115,7 @@ mkfifo $pipe
 tmux new-session -d "$server | tee $pipe"
 
 # Call the autosaver
-$HOME/terraria-server/autosave.sh &
+$HOME/autosave.sh &
 
 # Infinitely print the contents of the pipe, so the container still logs the Terraria Server.
 cat $pipe &
