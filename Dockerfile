@@ -139,3 +139,4 @@ RUN ./LaunchUtils/DotNetInstall.sh
 
 ENTRYPOINT ["./entrypoint.sh"]
 
+VOLUME ["/data"]
