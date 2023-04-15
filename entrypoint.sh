@@ -5,9 +5,9 @@ mkdir $WORLDSPATH
 mkdir $MODSPATH
 tModLoader_ID=1281930
 internalModsPathPrefix=$HOME/mods
-internalModsFullPath=$internalModsPathPrefix/steamapps/workshop/content/
-mkdir -p $internalModsFullPath
-ln -s -T $MODSPATH $internalModsFullPath/$tModLoader_ID
+internalModsFullPath=$internalModsPathPrefix/steamapps/workshop
+mkdir -p $internalModsFullPath/content
+ln -s -T $MODSPATH $internalModsFullPath/content/$tModLoader_ID
 
 if [[ "$UPDATE_NOTICE" != "false" ]]; then
   echo -e "\n\n!!-------------------------------------------------------------------!!"
@@ -87,7 +87,7 @@ else
       echo -e "[!!] Mod ID $LINE not found! Has it been downloaded?"
       continue
     fi
-    modname=$(ls -1 $(ls -d $internalModsFullPath/$tModLoader_ID/$LINE/*/|tail -n 1) | sed -e 's/\.tmod$//')
+    modname=$(ls -1 $(ls -d $internalModsFullPath/content/$tModLoader_ID/$LINE/*/|tail -n 1) | sed -e 's/\.tmod$//')
     if [ $? -ne 0 ]; then
       echo -e " [!!] An error occurred while attempting to load $LINE."
       continue
@@ -97,9 +97,11 @@ else
     echo -e "[SYSTEM] Enabled $modname ($LINE) "
   done
     echo ']' >> $enabledpath
-    echo ']' >> $enabledpath
     echo "\n[SYSTEM] Finished loading mods."
 fi
+
+mkdir -p $HOME/.local/share/Terraria/tModLoader/Mods
+ln -s $enabledpath $HOME/.local/share/Terraria/tModLoader/Mods/enabled.json
 
 # Startup command
 server="$HOME/LaunchUtils/ScriptCaller.sh -server -steamworkshopfolder \"$internalModsFullPath\" -config \"$CONFIGPATH\""
