@@ -122,7 +122,7 @@ WORKDIR $HOME
 
 RUN steamcmd $HOME +login anonymous +quit
 
-RUN wget https://github.com/tModLoader/tModLoader/releases/download/${TMOD_VERSION}/tModLoader.zip 
+RUN [ $TMOD_VERSION = "latest" ] && wget https://github.com/tModLoader/tModLoader/releases/latest/download/tModLoader.zip || wget https://github.com/tModLoader/tModLoader/releases/download/${TMOD_VERSION}/tModLoader.zip
 RUN unzip -o tModLoader.zip \
     && rm tModLoader.zip
 
