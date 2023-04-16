@@ -1,4 +1,15 @@
-FROM steamcmd/steamcmd:ubuntu-22
+FROM steamcmd/steamcmd:ubuntu-22 as builder
+
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends curl tar \
+    && apt-get -y autoremove \
+    && apt-get autoclean
+
+# Download and unpack steamcmd installer
+WORKDIR /root/installer
+RUN curl -sqL https://steamcdn-a.akamaihd.net/client/installer/steamcmd_linux.tar.gz | tar zxvf -
+
+FROM ubuntu:latest
 
 # The TMOD Version. Ensure that you follow the correct format. Version releases can be found at https://github.com/tModLoader/tModLoader/releases if you're lost.
 ARG TMOD_VERSION=v2022.09.47.47
@@ -89,22 +100,23 @@ ENV TMOD_JOURNEY_SPAWN_RATE="0"
 # Set this to "Yes" if you would rather use a config file instead of the above settings.
 # ENV TMOD_USECONFIGFILE="No"
 
+# Copy steamcmd and its required libs from the builder
+COPY --chown=0:0 --from=builder /root/installer/steamcmd.sh /usr/lib/games/steam/
+COPY --chown=0:0 --from=builder /root/installer/linux32/steamcmd /usr/lib/games/steam/
+COPY --chown=0:0 --from=builder /usr/games/steamcmd /usr/bin/steamcmd
+COPY --chown=0:0 --from=builder /etc/ssl/certs /etc/ssl/certs
+COPY --chown=0:0 --from=builder /lib/i386-linux-gnu /lib/
+COPY --chown=0:0 --from=builder /root/installer/linux32/libstdc++.so.6 /lib/
+
 RUN apt-get update \
-    && apt-get install -y curl tar wget unzip tmux bash libsdl2-2.0-0
-
-# Download and unpack steamcmd installer
-WORKDIR /root/installer
-RUN curl -sqL https://steamcdn-a.akamaihd.net/client/installer/steamcmd_linux.tar.gz | tar zxvf -
-
-RUN mkdir --parents /usr/lib/games/steam/; mv /root/installer/steamcmd.sh $_
-RUN mkdir --parents /usr/lib/games/steam/; mv /root/installer/linux32/steamcmd $_ 
-RUN mkdir --parents /usr/bin/steamcmd; mv /usr/games/steamcmd $_
-RUN mkdir --parents /lib/; mv /root/installer/linux32/libstdc++.so.6 $_
+    && apt-get install -y curl tar wget unzip tmux bash libsdl2-2.0-0 \
+    && apt-get -y autoremove \
+    && apt-get autoclean
 
 # Create the non-privileged user and its folders, set correct permissions, and drop root
 ENV HOME=/terraria-server
-RUN groupadd -g 456 terraria
-RUN useradd -g terraria -u 456 terraria -d $HOME -m -s /bin/bash
+RUN groupadd -g 456 terraria \
+    && useradd -g terraria -u 456 terraria -d $HOME -m -s /bin/bash
 
 ENV DATAPATH=/data
 ENV WORLDSPATH=$DATAPATH/worlds
@@ -120,14 +132,14 @@ EXPOSE 7777
 
 WORKDIR $HOME
 
-RUN steamcmd $HOME +login anonymous +quit
+RUN steamcmd +@sSteamCmdForcePlatformType linux $HOME +login anonymous +quit
 
-RUN [ $TMOD_VERSION = "latest" ] && wget https://github.com/tModLoader/tModLoader/releases/latest/download/tModLoader.zip || wget https://github.com/tModLoader/tModLoader/releases/download/${TMOD_VERSION}/tModLoader.zip
-RUN unzip -o tModLoader.zip \
+RUN [ $TMOD_VERSION = "latest" ] && wget https://github.com/tModLoader/tModLoader/releases/latest/download/tModLoader.zip || wget https://github.com/tModLoader/tModLoader/releases/download/${TMOD_VERSION}/tModLoader.zip \
+    && unzip -o tModLoader.zip \
     && rm tModLoader.zip
 
-RUN chmod 755 ./start-tModLoaderServer.sh
-RUN chmod 755 ./LaunchUtils/ScriptCaller.sh
+RUN chmod 755 ./start-tModLoaderServer.sh \
+    && chmod 755 ./LaunchUtils/ScriptCaller.sh
 
 COPY --chown=0:0 --chmod=755 inject.sh /usr/local/bin/inject
 COPY --chown=terraria:terraria --chmod=755 DotNetInstall.sh ./LaunchUtils
@@ -136,6 +148,11 @@ COPY --chown=terraria:terraria --chmod=755 autosave.sh .
 COPY --chown=terraria:terraria --chmod=755 prepare-config.sh .
 
 RUN ./LaunchUtils/DotNetInstall.sh
+
+RUN rm -rf $HOME/Libraries/Native/OSX \
+    && rm -rf $HOME/Libraries/Native/Windows \
+    && rm -rf $HOME/.local/share/Steam/steamcmd/siteserverui \
+    && rm -rf $HOME/.local/share/Steam/steamcmd/package
 
 ENTRYPOINT ["./entrypoint.sh"]
 
