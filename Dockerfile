@@ -146,7 +146,8 @@ RUN chown -R terraria:terraria /home/terraria \
     && chmod 755 ./entrypoint.sh \
     && chmod 755 /usr/local/bin/inject \
     && chmod 755 ./autosave.sh \
-    && chmod 755 ./prepare-config.sh
+    && chmod 755 ./prepare-config.sh \
+    && chmod -R 755 /home/terraria
 USER terraria
 
 RUN ./LaunchUtils/DotNetInstall.sh

@@ -1,8 +1,11 @@
 version: '3'
 services:
   tmodloader:
-    image: 'jacobsmile/tmodloader1.4'
+    image: 'jacobsmile/tmodloader1.4:latest'
     container_name: 'tmodloader'
+    pull_policy: always
+    user: terraria:terraria
+    working_dir: /home/terraria/terraria-server
     ports:
       - "7777:7777"
     expose:
@@ -26,9 +29,11 @@ services:
       - "TMOD_DIFFICULTY=3"
       # (Deprecated) If TMOD_USECONFIGFILE is set to "Yes", it is expected to have a serverconfig.txt mapped. The Server Settings above will be ignored.
       - "TMOD_USECONFIGFILE=No"
+      - "UPDATE_NOTICE=false"
 
     volumes:
-      - "/path/to/worlds/file:/home/terraria/.local/share/Terraria/tModLoader/Worlds"
-      - "/path/to/workshop/folder:/home/terraria/terraria-server/workshop-mods"
+    #### UPDATE THE BELOW PATHS TO A DIRECTORY LOCAL TO YOUR MACHINE #####
+      - "path/to/worlds/folder:/home/terraria/.local/share/Terraria/tModLoader/Worlds"
+      - "path/to/mods/folder:/home/terraria/terraria-server/workshop-mods"
       # Uncomment the below line if you plan to use a mapped config file. 
       # - "/path/to/config/config.txt:/root/terraria-server/serverconfig.txt"
