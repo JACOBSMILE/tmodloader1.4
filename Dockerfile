@@ -15,7 +15,7 @@ FROM ubuntu:latest
 
 
 # The TMOD Version. Ensure that you follow the correct format. Version releases can be found at https://github.com/tModLoader/tModLoader/releases if you're lost.
-ARG TMOD_VERSION=v2022.09.47.52
+ARG TMOD_VERSION=v2022.09.47.57
 
 # Sends update messages to the console before launch.
 ENV UPDATE_NOTICE="true"
