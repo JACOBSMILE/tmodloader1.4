@@ -148,6 +148,14 @@ If mods receive updates you wish to download, include the Mod ID again in the `T
 Additionally, you may at any time remove a mod from the `TMOD_ENABLEDMODS` variable to disable it, though this may cause problems with a world which has modded content.
 
 ---
+## Permission Configuration
+This container uses an account named `terraria` internally which is a low-privileged user. Due to Unix kernel constraints, it may be necessary to grant UID and GID `1000` access to the mapped world and mod directories to properly launch the server.
+
+To do this easily, perform the following command on your HOST's Mod and World directories:
+
+`chown 1000:1000 <directory_path_here> -R`
+
+---
 
 # Environment Variables
 The following are all of the environment variables that are supported by the container. These handle server functionality and Terraria server configurations.
