@@ -8,7 +8,8 @@ RUN apt-get update \
 WORKDIR /root/installer
 
 # Download and unpack installer
-RUN curl -sqL https://steamcdn-a.akamaihd.net/client/installer/steamcmd_linux.tar.gz | tar zxvf -
+# Insecure was added, apparently some Steam CDN certificate expired.
+RUN curl -sqL --insecure https://steamcdn-a.akamaihd.net/client/installer/steamcmd_linux.tar.gz | tar zxvf -
 
 #FROM alpine:latest
 FROM ubuntu:latest

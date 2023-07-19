@@ -1,19 +1,19 @@
 #!/bin/bash
 pipe=/tmp/tmod.pipe
 
-if [[ "$UPDATE_NOTICE" != "false" ]]; then
-  echo -e "\n\n!!-------------------------------------------------------------------!!"
-  echo -e "REGARDING ISSUE #12"
-  echo -e "[UPDATE NOTICE] Recently, this container has been updated to remove dependency on the Root User account inside the container."
-  echo -e "[UPDATE NOTICE] Because of this update, prior configurations which mapped HOST directories for Mods, Worlds and Custom Configs will no longer work."
-  echo -e "[UPDATE NOTICE] Your World files are NOT DELETED!"
-  echo -e "[UPDATE NOTICE] If you are experiencing issues with your worlds or mods loading properly, please refer to the following SFB for more information."
-  echo -e "[UPDATE NOTICE] https://github.com/JACOBSMILE/tmodloader1.4/wiki/SFB:-Removing-Dependency-on-Root-(Issue-12)"
-  echo -e "!!-------------------------------------------------------------------!!"
-  echo -e "\n[SYSTEM] The Server will launch in 30 seconds. To disable this notice, set the UPDATE_NOTICE environment variable equal to \"false\"."
-  echo -e "[SYSTEM] This notice will be eventually removed in a later update."
-  sleep 30s
-fi
+# if [[ "$UPDATE_NOTICE" != "false" ]]; then
+#   echo -e "\n\n!!-------------------------------------------------------------------!!"
+#   echo -e "REGARDING ISSUE #12"
+#   echo -e "[UPDATE NOTICE] Recently, this container has been updated to remove dependency on the Root User account inside the container."
+#   echo -e "[UPDATE NOTICE] Because of this update, prior configurations which mapped HOST directories for Mods, Worlds and Custom Configs will no longer work."
+#   echo -e "[UPDATE NOTICE] Your World files are NOT DELETED!"
+#   echo -e "[UPDATE NOTICE] If you are experiencing issues with your worlds or mods loading properly, please refer to the following SFB for more information."
+#   echo -e "[UPDATE NOTICE] https://github.com/JACOBSMILE/tmodloader1.4/wiki/SFB:-Removing-Dependency-on-Root-(Issue-12)"
+#   echo -e "!!-------------------------------------------------------------------!!"
+#   echo -e "\n[SYSTEM] The Server will launch in 30 seconds. To disable this notice, set the UPDATE_NOTICE environment variable equal to \"false\"."
+#   echo -e "[SYSTEM] This notice will be eventually removed in a later update."
+#   sleep 30s
+# fi
 
 echo -e "[SYSTEM] Shutdown Message set to: $TMOD_SHUTDOWN_MESSAGE"
 echo -e "[SYSTEM] Save Interval set to: $TMOD_AUTOSAVE_INTERVAL minutes"
@@ -59,9 +59,11 @@ else
 fi
 
 # Enable Mods
-enabledpath=$HOME/.local/share/Terraria/tModLoader/Mods/enabled.json
+enabledpath=$HOME/.local/share/Terraria/tModLoader-1.4.3/Mods/enabled.json
 modpath=$HOME/terraria-server/workshop-mods/steamapps/workshop/content/1281930
 rm -f $enabledpath
+mkdir -p $HOME/.local/share/Terraria/tModLoader-1.4.3/Mods
+touch $enabledpath
 
 if test -z "${TMOD_ENABLEDMODS}" ; then
     echo -e "[SYSTEM] No mods to load. Please set the TMOD_ENABLEDMODS environment variable equal to a comma separated list of Mod Workshop IDs."
