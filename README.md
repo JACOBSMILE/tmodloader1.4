@@ -1,3 +1,5 @@
+## There is a known issue with TModLoader's directory moving internal to their image. This is being reviewed.
+
 # tModLoader Powered By Docker
 ![Auto-Update Badge](https://github.com/JACOBSMILE/tmodloader1.4/actions/workflows/tmodloader-check.yml/badge.svg)
 
