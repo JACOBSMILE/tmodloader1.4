@@ -59,9 +59,11 @@ else
 fi
 
 # Enable Mods
-enabledpath=$HOME/.local/share/Terraria/tModLoader/Mods/enabled.json
+enabledpath=$HOME/.local/share/Terraria/tModLoader-1.4.3/Mods/enabled.json
 modpath=$HOME/terraria-server/workshop-mods/steamapps/workshop/content/1281930
 rm -f $enabledpath
+mkdir -p $HOME/.local/share/Terraria/tModLoader-1.4.3/Mods
+touch $enabledpath
 
 if test -z "${TMOD_ENABLEDMODS}" ; then
     echo -e "[SYSTEM] No mods to load. Please set the TMOD_ENABLEDMODS environment variable equal to a comma separated list of Mod Workshop IDs."
