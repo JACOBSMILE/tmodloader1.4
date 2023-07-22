@@ -117,19 +117,16 @@ RUN chown -R root:root /usr/bin/ /etc/ssl/certs /lib/ /usr/lib/
 RUN apt-get update \
     && apt-get install -y wget unzip tmux bash libsdl2-2.0-0
 
-# Create a user and drop root
-RUN useradd -ms /bin/bash terraria
-ENV HOME=/home/terraria
-USER terraria
+RUN mkdir /data
+RUN mkdir /data/worlds
+RUN mkdir /data/mods
 
 EXPOSE 7777
 
-WORKDIR $HOME/terraria-server
+WORKDIR /terraria-server
 
-RUN steamcmd $HOME/terraria-server +login anonymous +quit
+RUN steamcmd /terraria-server +login anonymous +quit
 
-# Acquire root once more just to set the correct permissions and download
-USER root
 RUN wget https://github.com/tModLoader/tModLoader/releases/download/${TMOD_VERSION}/tModLoader.zip 
 RUN unzip -o tModLoader.zip \
     && rm tModLoader.zip
@@ -140,16 +137,8 @@ COPY inject.sh /usr/local/bin/inject
 COPY autosave.sh .
 COPY prepare-config.sh .
 
-RUN chown -R terraria:terraria /home/terraria \
-    && chmod 755 ./LaunchUtils/DotNetInstall.sh \
-    && chmod 755 ./start-tModLoaderServer.sh \
-    && chmod 755 ./LaunchUtils/ScriptCaller.sh \
-    && chmod 755 ./entrypoint.sh \
-    && chmod 755 /usr/local/bin/inject \
-    && chmod 755 ./autosave.sh \
-    && chmod 755 ./prepare-config.sh \
-    && chmod -R 755 /home/terraria
-USER terraria
+RUN chmod +x ./LaunchUtils/ScriptCaller.sh
+RUN chmod +x ./LaunchUtils/DotNetInstall.sh
 
 RUN ./LaunchUtils/DotNetInstall.sh
 RUN mkdir -p $HOME/.local/share/Terraria/tModLoader/Worlds \

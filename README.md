@@ -3,7 +3,8 @@
 
 ---
 # Important Notice
-## [Software Field Bulletin Regarding Changes to Directory Mapping](https://github.com/JACOBSMILE/tmodloader1.4/wiki/SFB:-Removing-Dependency-on-Root-(Issue-12))
+tModLoader will soon be updating to Terraria version 1.4.4. It is very likely that this update will cause breaking changes to this Docker container. Upon release of 1.4.4, this container's functionality will be reviewed. Relevant issues and fixes will be tracked in the Github Repository. Working 1.4.4 and 1.4.3 tags will be listed during the transition in the README.
+
 ---
 
 [View on Github](https://github.com/JACOBSMILE/tmodloader1.4) |
@@ -57,64 +58,18 @@ docker pull jacobsmile/tmodloader1.4:v2022.09.47.13
 
 # Container Preparation
 
-### World Directory (Required for Persistent Worlds)
-Create a directory on Host machine to house the world file as well as backups.
-```bash
-# Making the Worlds directory and exporting it to a variable.
-mkdir /path/to/worlds/directory
-export TMOD_WORLDS=/path/to/worlds/directory
-```
-
-Then you will need to specify your TMOD_WORLDS variable when running the container, like the following example.
+### Data Directory
+Create a directory on HOST machine to house persistent files.
 
 ```bash
--v $TMOD_WORLDS:/home/terraria/.local/share/Terraria/tModLoader/Worlds
+# Making the Data directory
+mkdir /path/to/data/directory
 ```
-
-_You can omit this, though the worlds will not be saved after your container shuts down! You have been warned._
-
----
-
-### Steam Workshop Directory (Optional)
-Create a directory on the Host machine to house the Steam Workshop files for the tModLoader mods to download to.
-
-This is optional, but including this in your configuration will **greatly reduce the startup time** after the mods have been downloaded from Steam.
-```bash
-# Making the Workshop directory and exporting it to a variable.
-mkdir /path/to/workshop/directory
-export TMOD_WORKSHOP=/path/to/workshop/directory
-```
-
-Then you will need to specify your TMOD_WORKSHOP variable when running the container, like the following example.
 
 ```bash
--v $TMOD_WORKSHOP:/home/terraria/terraria-server/workshop-mods
+# The below line is a mapped volume for the Docker container.
+-v /path/to/data/directory:/data
 ```
-
----
-
-### _(DEPRECRATED)_ Server Configuration File (Optional)
-If you would rather have the server read from a configuration file you've created, you may map the configuration file directly. Be sure to set the `TMOD_USECONFIGFILE` environment variable to a value of `YES`.
-
-Refer to the [Terraria Server Documentation]((https://terraria.fandom.com/wiki/Server#Server_config_file)) on how to setup a configuration file.
-
-
-```bash
-# Exporting the path to the customconfig.txt to a variable
-export TMOD_CONFIGFILE=/path/to/customconfig.txt
-```
-
-Then you will need to specify your TMOD_CONFIGFILE variable when running the container, like the following example.
-
-This container expects the file to be at this exact path in the container: `/home/terraria/terraria-server/customconfig.txt`.
-
-```bash
--v $TMOD_CONFIGFILE:/home/terraria/terraria-server/customconfig.txt
-```
-
-_Please note, while you are able to specify a config file, it has been deprecated as of April 2023 due to updates to the Environment Variable handling._
-
----
 
 ## Downloading Mods
 Every Workshop item on Steam has a unique identifier which can be found by visiting the store page directly. For example, for the [Calamity Mod](https://steamcommunity.com/sharedfiles/filedetails/?id=2824688072), you can find the Workshop ID from the URL. In this case, **2824688072** is the ID. This Docker container is capable of downloading tModLoader mods directly from the Steam Workshop to streamline the setup process.
@@ -130,7 +85,7 @@ For example, to tell the container to download Calamity and the Calamity Mod Mus
 ## Enabling Mods
 To successfully run this container, it is important to understand the difference between **downloading mods** and **enabling mods**.
 
-**Downloading** a mod simply stores it in the Steam Workshop cache, which should be mapped to a Host machine directory for persistence between container restarts.
+**Downloading** a mod simply stores it in the Steam Workshop cache, which is stored in the `/data/mods` directory. When mapping `/data` to a HOST directory, this will allow for persistence between container restarts.
 
 **Enabling** a mod tells the container to write the Mod's name to the `enabled.json` file, which tModLoader reads during startup. A Mod must first be downloaded with the `TMOD_AUTODOWNLOAD` variable to be eligible to be enabled.
 
@@ -141,21 +96,11 @@ To enable a mod on the server, specify the `TMOD_ENABLEDMODS` environment variab
 ```
 ---
 ## Mod Considerations
-Assuming you map a persistant location on your Host machine to store the Workshop content, there is no need to repeatedly download mods each time you start the container. For this reason, once you have downloaded the mods you want to include on your server, it is safe to **remove** the `TMOD_AUTODOWNLOAD` environment variable, whilst maintaining the `TMOD_ENABLEDMODS` variable to enable them during runtime. Doing so will greatly improve the startup time of the Docker container.
+There is no need to repeatedly download mods each time you start the container. For this reason, once you have downloaded the mods you want to include on your server, it is safe to **remove** the `TMOD_AUTODOWNLOAD` environment variable, whilst maintaining the `TMOD_ENABLEDMODS` variable to enable them during runtime. Doing so will greatly improve the startup time of the Docker container.
 
 If mods receive updates you wish to download, include the Mod ID again in the `TMOD_AUTODOWNLOAD` variable to download the update. The next time tModLoader starts, the mod will be updated.
 
 Additionally, you may at any time remove a mod from the `TMOD_ENABLEDMODS` variable to disable it, though this may cause problems with a world which has modded content.
-
----
-## Permission Configuration
-This container uses an account named `terraria` internally which is a low-privileged user. Due to Unix kernel constraints, it may be necessary to grant UID and GID `1000` access to the mapped world and mod directories to properly launch the server.
-
-To do this easily, perform the following command on your HOST's Mod and World directories:
-
-`chown 1000:1000 <directory_path_here> -R`
-
----
 
 # Environment Variables
 The following are all of the environment variables that are supported by the container. These handle server functionality and Terraria server configurations.
@@ -212,8 +157,7 @@ docker pull jacobsmile/tmodloader1.4:latest
 
 # Execute the container
 docker run -p 7777:7777 --name tmodloader --rm \
-  -v $TMOD_WORLDS:/home/terraria/.local/share/Terraria/tModLoader/Worlds \
-  -v $TMOD_WORKSHOP:/home/terraria/terraria-server/workshop-mods \
+  -v /path/to/data:/data
   -e TMOD_SHUTDOWN_MESSAGE='Goodbye!' \
   -e TMOD_AUTOSAVE_INTERVAL='15' \
   -e TMOD_AUTODOWNLOAD='2824688072,2824688266' \

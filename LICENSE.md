@@ -1,6 +1,6 @@
 # This Copyright does NOT include that which is owned by Re-Logic, or the TML Team and only includes that which is contained in the Dockerfile and assorted scripts, not counting the DotNetInstall script..
 
-Copyright 2022 JACOBSMILE
+Copyright 2023 JACOBSMILE
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
