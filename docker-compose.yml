@@ -4,8 +4,7 @@ services:
     image: 'jacobsmile/tmodloader1.4:latest'
     container_name: 'tmodloader'
     pull_policy: always
-    user: terraria:terraria
-    working_dir: /home/terraria/terraria-server
+    working_dir: /terraria-server
     ports:
       - "7777:7777"
     expose:
@@ -32,8 +31,7 @@ services:
       - "UPDATE_NOTICE=false"
 
     volumes:
-    #### UPDATE THE BELOW PATHS TO A DIRECTORY LOCAL TO YOUR MACHINE #####
-      - "path/to/worlds/folder:/home/terraria/.local/share/Terraria/tModLoader/Worlds"
-      - "path/to/mods/folder:/home/terraria/terraria-server/workshop-mods"
+    #### By default, the below setting will create a data directory on your host where this compose file lives.
+      - "./data:/data"
       # Uncomment the below line if you plan to use a mapped config file. 
       # - "/path/to/config/config.txt:/root/terraria-server/serverconfig.txt"
