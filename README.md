@@ -1,5 +1,5 @@
 # tModLoader Powered By Docker
-![Discord](https://img.shields.io/discord/1132368789518950521?logo=discord&label=Discord%20Server&style=for-the-badge)
+[![Discord](https://img.shields.io/discord/1132368789518950521?logo=discord&label=Discord%20Server&style=for-the-badge)](https://discord.gg/dHnVYYGed7)
 
 ![Auto-Update Badge](https://img.shields.io/github/actions/workflow/status/jacobsmile/tmodloader1.4/tmodloader-check.yml?logo=github&label=tModLoader%20Auto-Updater&style=for-the-badge)
 
@@ -8,8 +8,8 @@
 ![OpenIssues](https://img.shields.io/github/issues/jacobsmile/tmodloader1.4?logo=github&style=for-the-badge)
 ![ClosedIssues](https://img.shields.io/github/issues-closed/jacobsmile/tmodloader1.4?logo=github&style=for-the-badge)
 
-![DockerPulls](https://img.shields.io/docker/pulls/jacobsmile/tmodloader1.4?logo=docker&style=for-the-badge)
-![DockerStars](https://img.shields.io/docker/stars/jacobsmile/tmodloader1.4?logo=docker&style=for-the-badge)
+[![DockerPulls](https://img.shields.io/docker/pulls/jacobsmile/tmodloader1.4?logo=docker&style=for-the-badge)](https://registry.hub.docker.com/r/jacobsmile/tmodloader1.4)
+[![DockerStars](https://img.shields.io/docker/stars/jacobsmile/tmodloader1.4?logo=docker&style=for-the-badge)](](https://registry.hub.docker.com/r/jacobsmile/tmodloader1.4))
 
 ![Unraid](https://img.shields.io/badge/Available_On_Unraid_Community_Apps!-gray?logo=unraid&link=https%3A%2F%2Funraid.net%2Fcommunity%2Fapps%3Fq%3Dtmodloader%23r&style=for-the-badge)
 
