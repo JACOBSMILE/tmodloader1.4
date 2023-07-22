@@ -16,7 +16,7 @@
 ![DockerStars](https://img.shields.io/docker/stars/jacobsmile/tmodloader1.4?logo=docker&style=for-the-badge
 )
 
-![Unraid](https://img.shields.io/badge/Available_On_Unraid_Community_Apps!-Click%20to%20view!-orange?logo=unraid&link=https%3A%2F%2Funraid.net%2Fcommunity%2Fapps%3Fq%3Dtmodloader%23r&style=for-the-badge
+![Unraid](https://img.shields.io/badge/Available_On_Unraid_Community_Apps!-gray?logo=unraid&link=https%3A%2F%2Funraid.net%2Fcommunity%2Fapps%3Fq%3Dtmodloader%23r&style=for-the-badge
 )
 
 ---
