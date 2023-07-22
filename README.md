@@ -2,7 +2,12 @@
 ![Auto-Update Badge](https://github.com/JACOBSMILE/tmodloader1.4/actions/workflows/tmodloader-check.yml/badge.svg)
 
 ---
-# Important Notice
+# Important Notices
+
+## Recent changes to Directory Mapping
+This container recently updated from requiring separate mapped `world` and `mods` directories to your host for persistence. This has been updated to a common `/data` directory. This README has been updated to reflect this change.
+
+## Upcoming 1.4.4 Update
 tModLoader will soon be updating to Terraria version 1.4.4. It is very likely that this update will cause breaking changes to this Docker container. Upon release of 1.4.4, this container's functionality will be reviewed. Relevant issues and fixes will be tracked in the Github Repository. Working 1.4.4 and 1.4.3 tags will be listed during the transition in the README.
 
 ---
