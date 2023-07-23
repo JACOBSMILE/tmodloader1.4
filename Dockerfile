@@ -137,11 +137,13 @@ COPY inject.sh /usr/local/bin/inject
 COPY autosave.sh .
 COPY prepare-config.sh .
 
-RUN chmod +x ./LaunchUtils/ScriptCaller.sh
-RUN chmod +x ./LaunchUtils/DotNetInstall.sh
-RUN chmod +x ./entrypoint.sh
-RUN chmod +x ./autosave.sh
-RUN chmod +x /usr/local/bin/inject
+RUN chmod 755 ./LaunchUtils/DotNetInstall.sh \
+    && chmod 755 ./LaunchUtils/ScriptCaller.sh \
+    && chmod 755 ./entrypoint.sh \
+    && chmod 755 ./autosave.sh \
+    && chmod 755 /usr/local/bin/inject \
+    && chmod 755 ./prepare-config.sh \
+    && chmod 755 ./start-tModLoaderServer.sh
 
 RUN ./LaunchUtils/DotNetInstall.sh
 RUN mkdir -p $HOME/.local/share/Terraria/tModLoader/Worlds \
