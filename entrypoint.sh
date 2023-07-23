@@ -30,7 +30,7 @@ function shutdown () {
   sleep 3s
   inject "exit"
   tmuxPid=$(pgrep tmux)
-  tmodPid=$(pgrep --parent $tmuxPid Main)
+  tmodPid=$(pgrep --oldest --parent $tmuxPid)
   while [ -e /proc/$tmodPid ]; do
     sleep .5
   done
