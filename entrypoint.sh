@@ -82,7 +82,7 @@ else
     echo -e "[SYSTEM] Enabled $modname ($LINE) "
   done
     echo ']' >> $enabledpath
-    echo "\n[SYSTEM] Finished loading mods."
+    echo -e "\n[SYSTEM] Finished loading mods."
 fi
 
 # Startup command
