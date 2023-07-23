@@ -127,7 +127,7 @@ WORKDIR /terraria-server
 
 RUN steamcmd /terraria-server +login anonymous +quit
 
-RUN wget https://github.com/tModLoader/tModLoader/releases/download/${TMOD_VERSION}/tModLoader.zip 
+RUN wget https://github.com/tModLoader/tModLoader/releases/download/${TMOD_VERSION}/tModLoader.zip
 RUN unzip -o tModLoader.zip \
     && rm tModLoader.zip
 
@@ -139,6 +139,9 @@ COPY prepare-config.sh .
 
 RUN chmod +x ./LaunchUtils/ScriptCaller.sh
 RUN chmod +x ./LaunchUtils/DotNetInstall.sh
+RUN chmod +x ./entrypoint.sh
+RUN chmod +x ./autosave.sh
+RUN chmod +x /usr/local/bin/inject
 
 RUN ./LaunchUtils/DotNetInstall.sh
 RUN mkdir -p $HOME/.local/share/Terraria/tModLoader/Worlds \
