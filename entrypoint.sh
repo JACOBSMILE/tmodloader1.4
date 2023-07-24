@@ -30,7 +30,7 @@ function shutdown () {
   sleep 3s
   inject "exit"
   tmuxPid=$(pgrep tmux)
-  tmodPid=$(pgrep --parent $tmuxPid Main)
+  tmodPid=$(pgrep --oldest --parent $tmuxPid)
   while [ -e /proc/$tmodPid ]; do
     sleep .5
   done
@@ -82,7 +82,7 @@ else
     echo -e "[SYSTEM] Enabled $modname ($LINE) "
   done
     echo ']' >> $enabledpath
-    echo "\n[SYSTEM] Finished loading mods."
+    echo -e "\n[SYSTEM] Finished loading mods."
 fi
 
 # Startup command
