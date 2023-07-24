@@ -96,7 +96,8 @@ echo -e $server
 # Check if the pipe exists already and remove it.
 if [ -e "$pipe" ]; then
   rm $pipe
-else
+fi
+
 # Create the tmux and pipe, so we can inject commands from 'docker exec [container id] inject [command]' on the host
 sleep 5s
 mkfifo $pipe
