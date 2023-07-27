@@ -50,7 +50,7 @@ else
 fi
 
 # Enable Mods
-enabledpath=$HOME/Mods/enabled.json
+enabledpath=/Mods/enabled.json
 modpath=/data/mods/steamapps/workshop/content/1281930
 rm -f $enabledpath
 mkdir -p /Mods
