@@ -45,22 +45,23 @@ if test -z "${TMOD_AUTODOWNLOAD}" ; then
 else
     echo -e "[SYSTEM] Downloading Mods specified in the TMOD_AUTODOWNLOAD Environment Variable. This may hand a while depending on the number of mods..."
     # Convert the Comma Separated list of Mod IDs to a list of SteamCMD commands and call SteamCMD to download them all.
-    steamcmd +force_install_dir /data/mods +login anonymous +workshop_download_item 1281930 `echo -e $TMOD_AUTODOWNLOAD | sed 's/,/ +workshop_download_item 1281930 /g'` +quit
+    steamcmd +force_install_dir /data/steamMods +login anonymous +workshop_download_item 1281930 `echo -e $TMOD_AUTODOWNLOAD | sed 's/,/ +workshop_download_item 1281930 /g'` +quit
     echo -e "[SYSTEM] Finished downloading mods."
 fi
 
 # Enable Mods
-enabledpath=$HOME/.local/share/Terraria/tModLoader-1.4.3/Mods/enabled.json
-modpath=/data/mods/steamapps/workshop/content/1281930
-rm -f $enabledpath
-mkdir -p $HOME/.local/share/Terraria/tModLoader-1.4.3/Mods
-touch $enabledpath
-
 if test -z "${TMOD_ENABLEDMODS}" ; then
-    echo -e "[SYSTEM] No mods to load. Please set the TMOD_ENABLEDMODS environment variable equal to a comma separated list of Mod Workshop IDs."
+    echo -e "[SYSTEM] The TMOD_ENABLEDMODS environment variable is not set. Defaulting to the mods specified in /data/tModLoader/Mods/enabled.json"
+    echo -e "[SYSTEM] To change which mods are enabled, set the TMOD_ENABLEDMODS environment variable to a comma seperated list of mod Workshop IDs."
     echo -e "[SYSTEM] For more information, please see the Github README."
     sleep 5s
 else
+  enabledpath=/data/tModLoader/Mods/enabled.json
+  modpath=/data/steamMods/steamapps/workshop/content/1281930
+  rm -f $enabledpath
+  mkdir -p /data/tModLoader/Mods
+  touch $enabledpath
+
   echo -e "[SYSTEM] Enabling Mods specified in the TMOD_ENABLEDMODS Environment variable..."
   echo '[' >> $enabledpath
   # Convert the Comma separated list of Mod IDs to an iterable list. We use this to drill through the directories and get the internal names of the mods.
@@ -86,7 +87,7 @@ else
 fi
 
 # Startup command
-server="/terraria-server/LaunchUtils/ScriptCaller.sh -server -steamworkshopfolder \"/data/mods/steamapps/workshop\" -config \"$configPath\""
+server="/terraria-server/LaunchUtils/ScriptCaller.sh -server -tmlsavedirectory \"/data/tModLoader\" -steamworkshopfolder \"/data/steamMods/steamapps/workshop\" -config \"$configPath\""
 
 # Trap the shutdown
 trap shutdown TERM INT
