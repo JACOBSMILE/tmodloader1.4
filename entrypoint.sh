@@ -50,10 +50,10 @@ else
 fi
 
 # Enable Mods
-enabledpath=$HOME/.local/share/Terraria/tModLoader-1.4.3/Mods/enabled.json
+enabledpath=$HOME/Mods/enabled.json
 modpath=/data/mods/steamapps/workshop/content/1281930
 rm -f $enabledpath
-mkdir -p $HOME/.local/share/Terraria/tModLoader-1.4.3/Mods
+mkdir -p /Mods
 touch $enabledpath
 
 if test -z "${TMOD_ENABLEDMODS}" ; then
@@ -86,7 +86,7 @@ else
 fi
 
 # Startup command
-server="/terraria-server/LaunchUtils/ScriptCaller.sh -server -steamworkshopfolder \"/data/mods/steamapps/workshop\" -config \"$configPath\""
+server="/terraria-server/LaunchUtils/ScriptCaller.sh -server -modpath \"/Mods\" -steamworkshopfolder \"/data/mods/steamapps/workshop\" -config \"$configPath\""
 
 # Trap the shutdown
 trap shutdown TERM INT
