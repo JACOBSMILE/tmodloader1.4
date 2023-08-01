@@ -1,10 +1,10 @@
 #!/bin/bash
 pipe=/tmp/tmod.pipe
 
-echo -e "\n[UPDATE NOTICE] Recently, this container has replaced mapping worlds and mods directories for a common /data directory. Please review the README on the GitHub for more information if your server is suddenly not loading your previous world files."
-echo -e "\n[1.4.4 NOTICE] tModLoader will soon be updating to version 1.4.4. This will likely be a breaking change to this container. Once this update releases, there will be a period of time where this container may not work. Please follow the GitHub repository for more information."
-echo -e "\n\n***The server will start in 20 seconds..."
-sleep 20s
+
+echo -e "[UPDATE NOTICE] Many changes have recently occurred to tModLoader and this Docker container. Please review the Github README for more information on the update to Terraria version 1.4.4 (breaking change) and directory updates."
+echo -e "\n\n***The server will start in 30 seconds. This update notice will eventually be removed from the container in a later version."
+sleep 30s
 
 echo -e "[SYSTEM] Shutdown Message set to: $TMOD_SHUTDOWN_MESSAGE"
 echo -e "[SYSTEM] Save Interval set to: $TMOD_AUTOSAVE_INTERVAL minutes"
