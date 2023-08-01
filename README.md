@@ -19,8 +19,12 @@
 ## Recent changes to Directory Mapping
 This container recently updated from requiring separate mapped `world` and `mods` directories to your host for persistence. This has been updated to a common `/data` directory. This README has been updated to reflect this change.
 
-## Upcoming 1.4.4 Update
-tModLoader will soon be updating to Terraria version 1.4.4. It is very likely that this update will cause breaking changes to this Docker container. Upon release of 1.4.4, this container's functionality will be reviewed. Relevant issues and fixes will be tracked in the Github Repository. Working 1.4.4 and 1.4.3 tags will be listed during the transition in the README.
+## 1.4.4 Update
+tModLoader has recently updated to Terraria version `1.4.4`. As a result, this update has broken several mods which must be updated by their respective developers. This container will still allow for mod downloads on the new version, but outdated mods will cause the server to crash on startup.
+
+The [tModLoader Discord](https://tmodloader.net/discord) is keeping a catalog of updated mods. Please review it to understand what mods are currently updated, and which ones are not.
+
+If you wish to run a Terraria version of `1.4.3`, run the container with the tag of `v2022.09.47.75`.
 
 ---
 
@@ -87,6 +91,26 @@ mkdir /path/to/data/directory
 # The below line is a mapped volume for the Docker container.
 -v /path/to/data/directory:/data
 ```
+
+Within this directory, you will find the following file structure:
+```
+/data/
+├─ steamMods/
+│  ├─ steamapps/
+│  │  ├─ workshop/
+│  │  │  ├─ content/
+│  │  │  │  ├─ 1281930/
+├─ tModLoader/
+│  ├─ ModConfigs/
+│  ├─ Mods/
+│  │  ├─ enabled.json
+│  ├─ Worlds/
+```
+
+Steam Workshop content is stored within `steamMods`.
+
+The server's Mod Configurations, Mod directory and World directories are stored within `tModLoader`.
+
 
 ## Downloading Mods
 Every Workshop item on Steam has a unique identifier which can be found by visiting the store page directly. For example, for the [Calamity Mod](https://steamcommunity.com/sharedfiles/filedetails/?id=2824688072), you can find the Workshop ID from the URL. In this case, **2824688072** is the ID. This Docker container is capable of downloading tModLoader mods directly from the Steam Workshop to streamline the setup process.
