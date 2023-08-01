@@ -118,8 +118,10 @@ RUN apt-get update \
     && apt-get install -y wget unzip tmux bash libsdl2-2.0-0
 
 RUN mkdir /data
-RUN mkdir /data/worlds
-RUN mkdir /data/mods
+RUN mkdir /data/tModLoader
+RUN mkdir /data/tModLoader/Worlds
+RUN mkdir /data/tModLoader/Mods
+RUN mkdir /data/steamMods
 
 EXPOSE 7777
 
@@ -146,7 +148,6 @@ RUN chmod 755 ./LaunchUtils/DotNetInstall.sh \
     && chmod 755 ./start-tModLoaderServer.sh
 
 RUN ./LaunchUtils/DotNetInstall.sh
-RUN mkdir -p $HOME/.local/share/Terraria/tModLoader/Worlds \
-    && mkdir -p $HOME/.local/share/Terraria/tModLoader/Mods
+
 
 ENTRYPOINT ["./entrypoint.sh"]
