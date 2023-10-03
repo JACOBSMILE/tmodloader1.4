@@ -1,11 +1,6 @@
 #!/bin/bash
 pipe=/tmp/tmod.pipe
 
-
-echo -e "[UPDATE NOTICE] Many changes have recently occurred to tModLoader and this Docker container. Please review the Github README for more information on the update to Terraria version 1.4.4 (breaking change) and directory updates."
-echo -e "\n\n***The server will start in 30 seconds. This update notice will eventually be removed from the container in a later version."
-sleep 30s
-
 echo -e "[SYSTEM] Shutdown Message set to: $TMOD_SHUTDOWN_MESSAGE"
 echo -e "[SYSTEM] Save Interval set to: $TMOD_AUTOSAVE_INTERVAL minutes"
 
