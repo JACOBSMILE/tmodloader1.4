@@ -1,4 +1,5 @@
 #!/bin/bash
+
 #Authors: covers1624, DarioDaf, Solxanich
 # Provided for use in tModLoader deployment. 
 

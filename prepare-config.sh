@@ -1,5 +1,6 @@
 #!/bin/bash
 
+
 # Print Env variables
 configPath=/terraria-server/serverconfig.txt
 echo -e "[COFNIG] Config File Path: $configPath"
