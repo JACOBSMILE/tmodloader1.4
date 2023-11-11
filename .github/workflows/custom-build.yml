@@ -1,0 +1,38 @@
+name: Custom Build of tModLoader Repository
+on:
+  workflow_dispatch:
+    inputs:
+      release:
+        description: 'The tModLoader Release to download and build.'
+        required: true
+        type: string
+jobs:
+  manual-run:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v2
+      with:
+        path: ./
+    - name: Get Current Version
+      run: echo "CURRENT_VERSION=$(grep -oP '(?<=\bTMOD_VERSION=)[^;]+' ./Dockerfile)" >> $GITHUB_ENV
+    - name: Print Stored Version Number
+      run: echo ${{ env.CURRENT_VERSION }}
+    - name: Get Repository Version
+      run: echo "REPO_VERSION=$(curl -sL https://api.github.com/repos/tModLoader/tModLoader/releases | jq -r "first | .tag_name")" >> $GITHUB_ENV
+    - name: Print Repository Version
+      run: echo ${{ env.REPO_VERSION }}
+    - name: Print Version to Download
+      run: echo ${{ inputs.release }}
+    - name: Update Dockerfile Version
+      if: ${{ env.CURRENT_VERSION != inputs.release }}
+      run: sed -i "s/${{ env.CURRENT_VERSION }}/${{ inputs.release }}/" ./Dockerfile
+    - name: Login to Dockerhub
+      env:
+        DOCKER_USER: ${{ secrets.DOCKER_USER }}
+        DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+      run: docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
+    - name: Build Docker Image
+      run: "docker build . --file ./Dockerfile --tag ${{ secrets.DOCKER_USER }}/tmodloader1.4:${{ inputs.release }} --tag ${{ secrets.DOCKER_USER }}/tmodloader1.4:latest"
+    - name: Push Image to DockerHub as Version
+      run: docker push ${{ secrets.DOCKER_USER }}/tmodloader1.4:${{ inputs.release }}
