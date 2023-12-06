@@ -14,19 +14,6 @@
 [![Unraid](https://img.shields.io/badge/Available_On_Unraid_Community_Apps!-gray?logo=unraid&link=https%3A%2F%2Funraid.net%2Fcommunity%2Fapps%3Fq%3Dtmodloader%23r&style=for-the-badge)](https://unraid.net/community/apps?q=tmodloader#r)
 
 ---
-# Important Notices
-
-## Recent changes to Directory Mapping
-This container recently updated from requiring separate mapped `world` and `mods` directories to your host for persistence. This has been updated to a common `/data` directory. This README has been updated to reflect this change.
-
-## 1.4.4 Update
-tModLoader has recently updated to Terraria version `1.4.4`. As a result, this update has broken several mods which must be updated by their respective developers. This container will still allow for mod downloads on the new version, but outdated mods will cause the server to crash on startup.
-
-The [tModLoader Discord](https://tmodloader.net/discord) is keeping a catalog of updated mods. Please review it to understand what mods are currently updated, and which ones are not.
-
-If you wish to run a Terraria version of `1.4.3`, run the container with the tag of `v2022.09.47.75`.
-
----
 
 [View on Github](https://github.com/JACOBSMILE/tmodloader1.4) |
 [View on Dockerhub](https://registry.hub.docker.com/r/jacobsmile/tmodloader1.4)
