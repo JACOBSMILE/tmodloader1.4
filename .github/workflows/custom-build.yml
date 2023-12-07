@@ -41,5 +41,5 @@ jobs:
     - name: Push Image to DockerHub as Version
       run: docker push ${{ secrets.DOCKER_USER }}/tmodloader1.4:${{ inputs.release }}
     - name: Push Image to DockerHub as Latest
-      if: ${{ env.CURRENT_VERSION != env.REPO_VERSION && env.REPO_IS_PRE_RELEASE == 'false' && inputs.aslatest }}
+      if: ${{ inputs.aslatest == 'true' }}
       run: docker push ${{ secrets.DOCKER_USER }}/tmodloader1.4:latest
