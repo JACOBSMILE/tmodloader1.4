@@ -6,6 +6,10 @@ on:
         description: 'The tModLoader Release to download and build.'
         required: true
         type: string
+      aslatest:
+        description: 'Should this push as latest?'
+        required: true
+        type: boolean
 jobs:
   manual-run:
     runs-on: ubuntu-latest
@@ -36,3 +40,6 @@ jobs:
       run: "docker build . --file ./Dockerfile --tag ${{ secrets.DOCKER_USER }}/tmodloader1.4:${{ inputs.release }} --tag ${{ secrets.DOCKER_USER }}/tmodloader1.4:latest"
     - name: Push Image to DockerHub as Version
       run: docker push ${{ secrets.DOCKER_USER }}/tmodloader1.4:${{ inputs.release }}
+    - name: Push Image to DockerHub as Latest
+      if: ${{ env.CURRENT_VERSION != env.REPO_VERSION && env.REPO_IS_PRE_RELEASE == 'false' && inputs.aslatest }}
+      run: docker push ${{ secrets.DOCKER_USER }}/tmodloader1.4:latest
