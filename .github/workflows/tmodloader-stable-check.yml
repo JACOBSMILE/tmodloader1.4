@@ -15,7 +15,7 @@ jobs:
     - name: Print Stored Version Number
       run: echo ${{ env.CURRENT_VERSION }}
     - name: Get Repository Version
-      run: echo "REPO_VERSION=$(curl -sL https://api.github.com/repos/tModLoader/tModLoader/releases | jq -r "map(select(.prerelease==false)) | first | .tag_name") >> $GITHUB_ENV
+      run: echo "REPO_VERSION=$(curl -sL https://api.github.com/repos/tModLoader/tModLoader/releases | jq -r "map(select(.prerelease==false)) | first | .tag_name")" >> $GITHUB_ENV
     - name: Print Repository Version
       run: echo ${{ env.REPO_VERSION }}
     - name: Update Dockerfile Version
