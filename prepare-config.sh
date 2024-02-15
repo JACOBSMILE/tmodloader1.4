@@ -65,6 +65,7 @@ echo "language=$TMOD_LANGUAGE" >> "$configPath"
 echo "npcstream=$TMOD_NPCSTREAM" >> "$configPath"
 echo "upnp=$TMOD_UPNP" >> "$configPath"
 echo "priority=$TMOD_PRIORITY" >> "$configPath"
+echo "port=$TMOD_PORT" >> "$configPath"
 
 echo "journeypermission_time_setfrozen=$TMOD_JOURNEY_SETFROZEN" >> "$configPath"
 echo "journeypermission_time_setdawn=$TMOD_JOURNEY_SETDAWN" >> "$configPath"

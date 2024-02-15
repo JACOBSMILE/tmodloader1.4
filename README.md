@@ -151,6 +151,7 @@ The following are all of the environment variables that are supported by the con
 | TMOD_LANGUAGE | en-US | Sets the language for the server. Available options are: `en-US` (English), `de-DE` (German), `it-IT` (Italian), `fr-FR` (French), `es-ES` (Spanish), `ru-RU` (Russian), `zh-Hans` (Chinese), `pt-BR` (Portuguese), `pl-PL` (Polish).
 | TMOD_NPCSTREAM | 60 | Reduces enemy skipping, but increases bandwidth usage. The lower the number, the less skipping will happeb, but more data is sent. 0 is off.
 | TMOD_UPNP | 0 | Automatically forwards ports with uPNP (untested, and may not work in all cases depending on network configuration)
+| TMOD_PORT | 7777 | Set the port for the tModLoader server to run on within the container.
 
 The following are environment variables which control Journey Mode settings. For all of these settings, 
 * 0 = Locked for everyone 
