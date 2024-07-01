@@ -100,6 +100,9 @@ sleep 5s
 mkfifo $pipe
 tmux new-session -d "$server | tee $pipe"
 
+# Call the tty input redirect
+/terraria-server/redirect.sh &
+
 # Call the autosaver
 /terraria-server/autosave.sh &
 
