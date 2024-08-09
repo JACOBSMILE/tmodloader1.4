@@ -69,7 +69,8 @@ else
       echo -e "[!!] Mod ID $LINE not found! Has it been downloaded?"
       continue
     fi
-    modname=$(ls -1 $(ls -d $modpath/$LINE/*/|tail -n 1) | sed -e 's/\.tmod$//')
+    # list all directories that contain a file ending in .tmod, sort them by name (so that the dir with the most recent date in it is at the bottom) and only take that dir then for modname
+    modname=$(basename "$(find "$modpath/$LINE" -name '*.tmod' | sort | uniq | tail -n 1 | sed -e 's/\.tmod$//')")
     if [ $? -ne 0 ]; then
       echo -e " [!!] An error occurred while attempting to load $LINE."
       continue
