@@ -7,7 +7,7 @@ do
     sleep ${TMOD_AUTOSAVE_INTERVAL}m
     echo "[SYSTEM] Saving world..."
     inject "$CMD_SAVE"
-    if [ -n "$TMOD_SHUTDOWN_MESSAGE" ]; then
-        inject "$CMD_SAY $TMOD_SHUTDOWN_MESSAGE"
+    if [ "$TMOD_SEND_AUTOSAVE_MESSAGE" == "1" ]; then
+        inject "$CMD_SAY $MSG_SAVE"
     fi
 done
