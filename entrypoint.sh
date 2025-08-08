@@ -7,6 +7,8 @@ echo -e "[SYSTEM] Save Interval set to: $TMOD_AUTOSAVE_INTERVAL minutes"
 
 configPath=/terraria-server/serverconfig.txt
 
+source fixlang.sh
+
 # Check Config
 if [[ "$TMOD_USECONFIGFILE" == "Yes" ]]; then
     if [ -e /terraria-server/customconfig.txt ]; then
@@ -22,9 +24,9 @@ fi
 
 # Trapped Shutdown, to cleanly shutdown
 function shutdown () {
-  inject "say $TMOD_SHUTDOWN_MESSAGE"
+  inject "$CMD_SAY $TMOD_SHUTDOWN_MESSAGE"
   sleep 3s
-  inject "exit"
+  inject "$CMD_EXIT"
   tmuxPid=$(pgrep tmux)
   tmodPid=$(pgrep --oldest --parent $tmuxPid)
   while [ -e /proc/$tmodPid ]; do
