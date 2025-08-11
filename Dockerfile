@@ -26,6 +26,9 @@ ENV TMOD_SHUTDOWN_MESSAGE="Server is shutting down NOW!"
 # The autosave feature will save the world periodically. The interval is in minutes.
 ENV TMOD_AUTOSAVE_INTERVAL="10"
 
+# If you want to send a message to the game chat when the world is saved, set the following to "1". Otherwise, set it to "0". Default is "1".
+ENV TMOD_SEND_AUTOSAVE_MESSAGE="1"
+
 # Mods which should be downloaded from Steam upon starting the server.
 # Example format: 2824688072,2824688266,2835214226
 ENV TMOD_AUTODOWNLOAD=""
@@ -135,6 +138,7 @@ RUN unzip -o tModLoader.zip \
     && rm tModLoader.zip
 
 COPY DotNetInstall.sh ./LaunchUtils
+COPY fixlang.sh .
 COPY entrypoint.sh .
 COPY inject.sh /usr/local/bin/inject
 COPY autosave.sh .
