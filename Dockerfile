@@ -120,6 +120,7 @@ RUN apt-get update \
 
 RUN mkdir /data
 RUN mkdir /data/tModLoader
+RUN mkdir /data/tModLoader/ModConfigs
 RUN mkdir /data/tModLoader/Worlds
 RUN mkdir /data/tModLoader/Mods
 RUN mkdir /data/steamMods
