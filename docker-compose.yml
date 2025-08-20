@@ -9,27 +9,34 @@ services:
       - "7777"
     environment:
       # Download the Calamity mod and CalamityMusic mod.
-      - "TMOD_AUTODOWNLOAD=2824688072,2824688266"
+      - "TMOD_AUTODOWNLOAD=${_TMOD_AUTODOWNLOAD}"
       # Enable the Calamity mod and CalamityMusic mod.
-      - "TMOD_ENABLEDMODS=2824688072,2824688266"
+      - "TMOD_ENABLEDMODS=${_TMOD_ENABLEDMODS}"
       # Shutdown Message and Autosave Interval (In Minutes)
-      - "TMOD_SHUTDOWN_MESSAGE=Goodbye!"
-      - "TMOD_AUTOSAVE_INTERVAL=15"
+      - "TMOD_SHUTDOWN_MESSAGE=${_TMOD_SHUTDOWN_MESSAGE}"
+      - "TMOD_AUTOSAVE_INTERVAL=${_TMOD_AUTOSAVE_INTERVAL}"
       # Server Settings
-      - "TMOD_MOTD=Welcome to my tModLoader Server!"
-      - "TMOD_PASS=secret"
-      - "TMOD_MAXPLAYERS=16"
+      - "TMOD_MOTD=${_TMOD_MOTD}"
+      - "TMOD_PASS=${_TMOD_PASS}"
+      - "TMOD_MAXPLAYERS=${_TMOD_MAXPLAYERS}"
       # The following world settings are only used when generating a new world.
-      - "TMOD_WORLDNAME=Earth"
-      - "TMOD_WORLDSIZE=2"
-      - "TMOD_WORLDSEED=not the bees!"
-      - "TMOD_DIFFICULTY=3"
+      - "TMOD_WORLDNAME=${_TMOD_WORLDNAME}"
+      - "TMOD_WORLDSEED=${_TMOD_WORLDSEED}"
+      - "TMOD_DIFFICULTY=${_TMOD_DIFFICULTY}"
       # (Deprecated) If TMOD_USECONFIGFILE is set to "Yes", it is expected to have a serverconfig.txt mapped. The Server Settings above will be ignored.
       - "TMOD_USECONFIGFILE=No"
       - "UPDATE_NOTICE=false"
 
     volumes:
-    ##### By default, the below setting will create a data directory on your host where this compose file lives.
-      - "./data:/data"
+      - "tmodloader_data:/data"
       # Uncomment the below line if you plan to use a mapped config file. 
       # - "/path/to/config/config.txt:/root/terraria-server/serverconfig.txt"
+
+# Define named volumes
+volumes:
+  tmodloader_data:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /opt/tmodloader-data
