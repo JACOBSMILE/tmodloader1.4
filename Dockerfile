@@ -146,7 +146,8 @@ RUN chmod 755 ./LaunchUtils/DotNetInstall.sh \
     && chmod 755 ./autosave.sh \
     && chmod 755 /usr/local/bin/inject \
     && chmod 755 ./prepare-config.sh \
-    && chmod 755 ./start-tModLoaderServer.sh
+    && chmod 755 ./start-tModLoaderServer.sh \
+    && chmod 755 ./redirect.sh
 
 RUN ./LaunchUtils/DotNetInstall.sh
 
