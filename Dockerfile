@@ -3,7 +3,8 @@ FROM steamcmd/steamcmd:ubuntu-22 as builder
 
 # Install prerequisites to download steamcmd
 RUN apt-get update \
-    && apt-get install -y --no-install-recommends curl tar
+    && apt-get install -y --no-install-recommends curl tar libicu-dev
+    
 WORKDIR /root/installer
 
 # Download and unpack installer
