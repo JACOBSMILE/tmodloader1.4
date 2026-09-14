@@ -210,6 +210,10 @@ Once you are satisfied with the compose file, start it with the following comman
 docker compose up --build
 ```
 
+## Deploy on Sealos
+
+For a community-maintained deployment using this Docker image, see the [Sealos guide](docs/sealos.md) for setup, public game ports, and persistent storage.
+
 # Interacting with the Server
 
 To send commands to the server once it has started, use the following command on your Host machine. The below example will send "Hello World" to the game chat.
